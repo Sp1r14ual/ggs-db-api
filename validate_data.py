@@ -158,7 +158,7 @@ def validate_house_equip_add_data(data):
 
 
 def validate_house_equip_edit_data(data):
-    required_fields = ()
+    required_fields = ('id',)
 
     nullable_fields = ('id_abonent', 'id_house',
                        'id_type_house_equip', 'year_produce', 'remark')
