@@ -58,31 +58,28 @@ def read_from_Person(**params):
 
     with Session(autoflush=False, bind=ENGINE) as db:
         item = db.query(md.Person).filter_by(**params).first()
-        return {"status": 200, "id": item.id}
+        return item.id
 
 
 def read_from_Organization(**params):
 
     with Session(autoflush=False, bind=ENGINE) as db:
-        items = db.query(md.Organization).filter_by(**params).all()
-        for item in items:
-            print(item.id, item.name, item.is_coop)
+        item = db.query(md.Organization).filter_by(**params).first()
+        return item.id
 
 
 def read_from_House(**params):
 
     with Session(autoflush=False, bind=ENGINE) as db:
-        items = db.query(md.House).filter_by(**params).all()
-        for item in items:
-            print(item.id, item.cadastr_number)
+        item = db.query(md.House).filter_by(**params).first()
+        return item.id
 
 
 def read_from_HouseEquip(**params):
 
     with Session(autoflush=False, bind=ENGINE) as db:
-        items = db.query(md.HouseEquip).filter_by(**params).all()
-        for item in items:
-            print(item.id, item.year_produce, item.remark)
+        item = db.query(md.HouseEquip).filter_by(**params).first()
+        return item.id
 
 
 def update_in_Person(**params):
@@ -163,6 +160,8 @@ def delete_from_Person(**params):
     with Session(autoflush=False, bind=ENGINE) as db:
         item = db.query(md.Person).filter(
             md.Person.id == params["id"]).first()
+        if item == None:
+            return "ERROR"
         db.delete(item)
         db.commit()
 
@@ -171,6 +170,8 @@ def delete_from_Organization(**params):
     with Session(autoflush=False, bind=ENGINE) as db:
         item = db.query(md.Organization).filter(
             md.Organization.id == params["id"]).first()
+        if item == None:
+            return "ERROR"
         db.delete(item)
         db.commit()
 
@@ -179,6 +180,8 @@ def delete_from_House(**params):
     with Session(autoflush=False, bind=ENGINE) as db:
         item = db.query(md.House).filter(
             md.House.id == params["id"]).first()
+        if item == None:
+            return "ERROR"
         db.delete(item)
         db.commit()
 
@@ -187,5 +190,7 @@ def delete_from_HouseEquip(**params):
     with Session(autoflush=False, bind=ENGINE) as db:
         item = db.query(md.HouseEquip).filter(
             md.HouseEquip.id == params["id"]).first()
+        if item == None:
+            return "ERROR"
         db.delete(item)
         db.commit()

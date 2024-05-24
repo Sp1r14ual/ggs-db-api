@@ -46,7 +46,8 @@ def delete_person():
     if not is_valid:
         return jsonify({'status_code': 400, 'message': validate_message}), 400
 
-    crud.delete_from_Person(**data)
+    if crud.delete_from_Person(**data) == "ERROR":
+        return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
 
     # Что должно возвращаться при редактировании? В мануале не указано
     return jsonify({'status_code': 200}), 200
@@ -93,7 +94,8 @@ def delete_organization():
     if not is_valid:
         return jsonify({'status_code': 400, 'message': validate_message}), 400
 
-    crud.delete_from_Organization(**data)
+    if crud.delete_from_Organization(**data) == "ERROR":
+        return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
 
     # Что должно возвращаться при редактировании? В мануале не указано
     return jsonify({'status_code': 200}), 200
@@ -140,7 +142,8 @@ def delete_house():
     if not is_valid:
         return jsonify({'status_code': 400, 'message': validate_message}), 400
 
-    crud.delete_from_House(**data)
+    if crud.delete_from_House(**data) == "ERROR":
+        return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
 
     # Что должно возвращаться при редактировании? В мануале не указано
     return jsonify({'status_code': 200}), 200
@@ -187,7 +190,8 @@ def delete_house_equip():
     if not is_valid:
         return jsonify({'status_code': 400, 'message': validate_message}), 400
 
-    crud.delete_from_HouseEquip(**data)
+    if crud.delete_from_HouseEquip(**data) == "ERROR":
+        return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
 
     # Что должно возвращаться при редактировании? В мануале не указано
     return jsonify({'status_code': 200}), 200
