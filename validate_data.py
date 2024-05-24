@@ -1,7 +1,7 @@
 def proceed_validation(data, required_fields, nullable_fields=tuple()):
-    for field in required_fields:
-        if field not in data:
-            return False, f"Missing required field: {field}"
+    # for field in required_fields:
+    #     if field not in data:
+    #         return False, f"Missing required field: {field}"
 
     for field in data:
         if (field not in required_fields) and (field not in nullable_fields):
