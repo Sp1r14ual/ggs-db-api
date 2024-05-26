@@ -109,9 +109,9 @@ def add_house():
 
     data = request.get_json(force=True)
 
-    is_valid, validate_message = vd.validate_house_add_data(data)
-    if not is_valid:
-        return jsonify({'status_code': 400, 'message': validate_message}), 400
+    # is_valid, validate_message = vd.validate_house_add_data(data)
+    # if not is_valid:
+    #     return jsonify({'status_code': 400, 'message': validate_message}), 400
 
     id = crud.insert_in_House(**data)
 
@@ -123,11 +123,12 @@ def edit_house():
 
     data = request.get_json(force=True)
 
-    is_valid, validate_message = vd.validate_house_edit_data(data)
-    if not is_valid:
-        return jsonify({'status_code': 400, 'message': validate_message}), 400
+    # is_valid, validate_message = vd.validate_house_edit_data(data)
+    # if not is_valid:
+    #     return jsonify({'status_code': 400, 'message': validate_message}), 400
 
-    crud.update_in_House(**data)
+    if crud.update_in_House(**data) == "ERROR":
+        return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
 
     # Что должно возвращаться при редактировании? В мануале не указано
     return jsonify({'status_code': 200}), 200

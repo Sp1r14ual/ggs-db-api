@@ -74,8 +74,64 @@ class House(Base):
     __table_args__ = {'implicit_returning': False}
 
     id = Column(Integer, primary_key=True, nullable=False)
+
+    # В БД nullable, а в мануале обязательный, как быть? Нужен default_value?
+    # + сопоставить вторичный ключ с другой таблицей
+    id_town = Column(Integer, nullable=True)
+
+    # NULL/Не NULL + вторичный ключ
+    id_district = Column(Integer, nullable=True)
+
+    id_street = Column(Integer, nullable=True)  # NULL/Не NULL + вторичный ключ
+    house_number = Column(VARCHAR(32), nullable=True)  # NULL/Не NULL
+    corpus_number = Column(VARCHAR(32), nullable=True)  # NULL/Не NULL
+
+    flat_number = Column(VARCHAR(12), nullable=True)
     cadastr_number = Column(VARCHAR(32), nullable=True)
     # Что делать с остальными полями?
+
+
+class HouseOwner(Base):
+    __tablename__ = 'house_owner'
+    __table_args__ = {'implicit_returning': False, 'extend_existing': True}
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    id_person = Column(Integer, nullable=False)  # default_value какое сделать?
+    id_house = Column(Integer, nullable=False)  # Тоже самое
+    # В БД Null, в мануале не нулл
+    is_actual = Column(Integer, nullable=True)
+
+
+class Town(Base):
+    __tablename__ = 'town'
+    __table_args__ = {'implicit_returning': False, 'extend_existing': True}
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    name = Column(VARCHAR(512), nullable=False)
+    # id_type_town = Column(VARCHAR(512), nullable=True)
+
+
+class District(Base):
+    __tablename__ = 'district'
+    __table_args__ = {'implicit_returning': False, 'extend_existing': True}
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    id_town = Column(Integer, nullable=True)
+    name = Column(VARCHAR(512), nullable=False)
+    id_region = Column(Integer, nullable=True)
+    r_case = Column(VARCHAR(32), nullable=True)
+
+
+class Street(Base):
+    __tablename__ = 'street'
+    __table_args__ = {'implicit_returning': False, 'extend_existing': True}
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    id_type_street = Column(Integer, nullable=False)
+    name = Column(VARCHAR(512), nullable=True)
+    # short_name = Column(VARCHAR(128), nullable=True)
+    id_district = Column(Integer, nullable=True)
+    id_town = Column(Integer, nullable=True)
 
 
 class HouseEquip(Base):
