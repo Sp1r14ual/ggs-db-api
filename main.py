@@ -123,9 +123,9 @@ def edit_house():
 
     data = request.get_json(force=True)
 
-    # is_valid, validate_message = vd.validate_house_edit_data(data)
-    # if not is_valid:
-    #     return jsonify({'status_code': 400, 'message': validate_message}), 400
+    is_valid, validate_message = vd.validate_house_edit_data(data)
+    if not is_valid:
+        return jsonify({'status_code': 400, 'message': validate_message}), 400
 
     if crud.update_in_House(**data) == "ERROR":
         return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400

@@ -139,13 +139,8 @@ class HouseEquip(Base):
     __table_args__ = {'implicit_returning': False}
 
     id = Column(Integer, primary_key=True, nullable=False)
-
-    # в мануале id_client, а в БД id_abonent?
-    id_abonent = Column(Integer, nullable=True)
+    # id_abonent = Column(Integer, nullable=True)
     id_house = Column(Integer, nullable=True)
     id_type_house_equip = Column(Integer, nullable=True)
     year_produce = Column(Integer, nullable=True)
     remark = Column(VARCHAR(128), nullable=True)
-
-    # в БД нет поля id_house_equip
-    # id_house_equip - это просто первичный ключ id из таблицы?

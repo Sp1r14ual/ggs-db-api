@@ -85,13 +85,12 @@ def update_in_Person(**params):
 
     with Session(autoflush=False, bind=ENGINE) as db:
 
-        item = db.query(md.Person).filter(md.Person.id == params["id"]).first()
+        item = db.query(md.Person).filter(
+            md.Person.id == params["client_id"]).first()
 
         if (item != None):
-            print(item.id, item.family_name, item.name)
-
             for key, value in params.items():
-                if key == "id":
+                if key == "client_id":
                     continue
                 if getattr(item, key) == value:
                     continue
@@ -105,11 +104,11 @@ def update_in_Organization(**params):
     with Session(autoflush=False, bind=ENGINE) as db:
 
         item = db.query(md.Organization).filter(
-            md.Organization.id == params["id"]).first()
+            md.Organization.id == params["organization_id"]).first()
 
         if (item != None):
             for key, value in params.items():
-                if key == "id":
+                if key == "organization_id":
                     continue
                 if getattr(item, key) == value:
                     continue
@@ -129,8 +128,6 @@ def update_in_House(**params):
 
         if (house != None):
             for key, value in params.items():
-
-                # Если первичный ключ, то пропускаем
                 if key == "id" or key == "id_house" or key == "client_id":
                     continue
 
@@ -206,29 +203,19 @@ def update_in_House(**params):
 
             db.commit()
 
-    # if "is_actual" in params:
-    #     with Session(autoflush=False, bind=ENGINE) as db:
-    #         house_owner = db.query(md.HouseOwner).filter(
-    #             md.HouseOwner.id_house == params["id_house"]).first()
-
-    #         if house_owner == None:
-    #             return "ERROR"
-
-    #         if getattr(house_owner, "is_actual") == params["is_actual"]:
-    #             pass
-    #         else:
-    #             setattr(house_owner, "is_actual", params["is_actual"])
-
 
 def update_in_HouseEquip(**params):
     with Session(autoflush=False, bind=ENGINE) as db:
 
         item = db.query(md.HouseEquip).filter(
-            md.HouseEquip.id == params["id"]).first()
+            md.HouseEquip.id == params["id_house_equip"]).first()
 
         if (item != None):
             for key, value in params.items():
-                if key == "id":
+                if key == "id_house_equip":
+                    continue
+                if key == "house_id":
+                    item.id_house = value
                     continue
                 if getattr(item, key) == value:
                     continue
@@ -241,7 +228,7 @@ def update_in_HouseEquip(**params):
 def delete_from_Person(**params):
     with Session(autoflush=False, bind=ENGINE) as db:
         item = db.query(md.Person).filter(
-            md.Person.id == params["id"]).first()
+            md.Person.id == params["id_client"]).first()
         if item == None:
             return "ERROR"
         db.delete(item)
@@ -251,7 +238,7 @@ def delete_from_Person(**params):
 def delete_from_Organization(**params):
     with Session(autoflush=False, bind=ENGINE) as db:
         item = db.query(md.Organization).filter(
-            md.Organization.id == params["id"]).first()
+            md.Organization.id == params["id_organization"]).first()
         if item == None:
             return "ERROR"
         db.delete(item)
@@ -261,7 +248,7 @@ def delete_from_Organization(**params):
 def delete_from_House(**params):
     with Session(autoflush=False, bind=ENGINE) as db:
         item = db.query(md.House).filter(
-            md.House.id == params["id"]).first()
+            md.House.id == params["id_house"]).first()
         if item == None:
             return "ERROR"
         db.delete(item)
@@ -271,7 +258,7 @@ def delete_from_House(**params):
 def delete_from_HouseEquip(**params):
     with Session(autoflush=False, bind=ENGINE) as db:
         item = db.query(md.HouseEquip).filter(
-            md.HouseEquip.id == params["id"]).first()
+            md.HouseEquip.id == params["id_house_equip"]).first()
         if item == None:
             return "ERROR"
         db.delete(item)
