@@ -15,7 +15,7 @@ url = 'http://127.0.0.1:5000/edit_house'
 #                 'cadastr_number': '123123123', 'is_actual': 1,
 #                 'id_house': 104633}
 
-data_to_send = {'id_house': 104633, 'is_actual': 1}
+data_to_send = {'id_house': 12795, 'client_id': 34186, 'is_actual': 0}
 
 # Отправляем POST запрос с JSON данными
 response = requests.post(url, json=data_to_send)

@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, and_
 from sqlalchemy.orm import Session
 import models as md
 
@@ -131,7 +131,7 @@ def update_in_House(**params):
             for key, value in params.items():
 
                 # Если первичный ключ, то пропускаем
-                if key == "id" or key == "id_house":
+                if key == "id" or key == "id_house" or key == "client_id":
                     continue
 
                 if key == "town":
@@ -187,16 +187,16 @@ def update_in_House(**params):
                 #         continue
 
                 if key == "is_actual":
-                    house_owner = db.query(md.HouseOwner).filter(
-                        md.HouseOwner.id_house == params["id_house"]).first()
+                    house_owner = db.query(md.HouseOwner).filter(and_(
+                        md.HouseOwner.id_house == params["id_house"], md.HouseOwner.id_person == params["client_id"])).first()
 
                     if house_owner == None:
                         return "ERROR"
 
-                    if house_owner.is_actual == params["is_actual"]:
+                    if getattr(house_owner, key) == value:
                         continue
                     else:
-                        house_owner.is_actual = params["is_actual"]
+                        setattr(house_owner, key, value)
                         continue
 
                 if getattr(house, key) == value:
@@ -205,6 +205,19 @@ def update_in_House(**params):
                     setattr(house, key, value)
 
             db.commit()
+
+    # if "is_actual" in params:
+    #     with Session(autoflush=False, bind=ENGINE) as db:
+    #         house_owner = db.query(md.HouseOwner).filter(
+    #             md.HouseOwner.id_house == params["id_house"]).first()
+
+    #         if house_owner == None:
+    #             return "ERROR"
+
+    #         if getattr(house_owner, "is_actual") == params["is_actual"]:
+    #             pass
+    #         else:
+    #             setattr(house_owner, "is_actual", params["is_actual"])
 
 
 def update_in_HouseEquip(**params):
