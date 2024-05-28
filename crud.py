@@ -34,12 +34,58 @@ def insert_in_House(**params):
 
     md.Base.metadata.create_all(bind=ENGINE)
 
-    with Session(autoflush=False, bind=ENGINE) as db:
-        item = md.House(**params)
+    house_params = dict()
+    house_owner_params = dict()
 
-        db.add(item)
+    with Session(autoflush=False, bind=ENGINE) as db:
+        for key, value in params.items():
+            if key == "adress":
+                continue
+            if key in ("id_client", "is_actual"):
+                if key == "id_client":
+                    house_owner_params["id_person"] = value
+                else:
+                    house_owner_params[key] = value
+            else:
+                # house_params[key] = value
+                if key == "town":
+                    town = db.query(md.Town).filter(
+                        md.Town.name == params["town"]).first()
+
+                    if town == None:
+                        return "ERROR"
+
+                    house_params["id_town"] = town.id
+
+                if key == "district":
+                    district = db.query(md.District).filter(
+                        md.District.name == params["district"]).first()
+
+                    if district == None:
+                        return "ERROR"
+
+                    house_params["id_district"] = district.id
+
+                if key == "street":
+                    street = db.query(md.Street).filter(
+                        md.Street.name == params["street"]).first()
+
+                    if street == None:
+                        return "ERROR"
+
+                    house_params["id_street"] = street.id
+
+        house = md.House(**house_params)
+        db.add(house)
         db.commit()
-        return item.id
+
+        print("HOUSE_ID:", house.id)
+        house_owner_params["id_house"] = house.id
+        house_owner = md.HouseOwner(**house_owner_params)
+        db.add(house_owner)
+        db.commit()
+
+        return house.id
 
 
 def insert_in_HouseEquip(**params):

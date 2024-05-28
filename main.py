@@ -1,6 +1,10 @@
 from flask import Flask, request, jsonify
+from dadata import Dadata
 import crud
 import validate_data as vd
+
+DADATA_TOKEN = "030304aa17b5f2adfda47289fa7030f73513f8b7"
+DADATA_SECRET = "1fcf05efb6b0521fe6cbbc4f2dcb1a211406e91a"
 
 app = Flask(__name__)
 
@@ -109,11 +113,27 @@ def add_house():
 
     data = request.get_json(force=True)
 
-    # is_valid, validate_message = vd.validate_house_add_data(data)
-    # if not is_valid:
-    #     return jsonify({'status_code': 400, 'message': validate_message}), 400
+    global parsed_data
+    parsed_data = dict()
 
-    id = crud.insert_in_House(**data)
+    is_valid, validate_message = vd.validate_house_add_data(data)
+    if not is_valid:
+        return jsonify({'status_code': 400, 'message': validate_message}), 400
+
+    with Dadata(DADATA_TOKEN, DADATA_SECRET) as dd:
+        parsed_address = dd.clean("address", data["adress"])
+        parsed_data["town"] = parsed_address["city"]
+        parsed_data["district"] = parsed_address["city_district"]
+        parsed_data["street"] = parsed_address["street"]
+        parsed_data["house_number"] = parsed_address["house"]
+        parsed_data["corpus_number"] = parsed_address["block"]
+        parsed_data["flat_number"] = parsed_address["flat"]
+
+    # id = crud.insert_in_House(**data)
+    id = crud.insert_in_House(**dict(data, **parsed_data))
+
+    if id == "ERROR":
+        return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
 
     return jsonify({'status_code': 200, 'id_house': id}), 200
 
