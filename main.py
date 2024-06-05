@@ -143,11 +143,23 @@ def edit_house():
 
     data = request.get_json(force=True)
 
+    global parsed_data
+    parsed_data = dict()
+
     is_valid, validate_message = vd.validate_house_edit_data(data)
     if not is_valid:
         return jsonify({'status_code': 400, 'message': validate_message}), 400
 
-    if crud.update_in_House(**data) == "ERROR":
+    with Dadata(DADATA_TOKEN, DADATA_SECRET) as dd:
+        parsed_address = dd.clean("address", data["adress"])
+        parsed_data["town"] = parsed_address["city"]
+        parsed_data["district"] = parsed_address["city_district"]
+        parsed_data["street"] = parsed_address["street"]
+        parsed_data["house_number"] = parsed_address["house"]
+        parsed_data["corpus_number"] = parsed_address["block"]
+        parsed_data["flat_number"] = parsed_address["flat"]
+
+    if crud.update_in_House(**dict(data, **parsed_data)) == "ERROR":
         return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
 
     # Что должно возвращаться при редактировании? В мануале не указано

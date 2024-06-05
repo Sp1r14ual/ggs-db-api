@@ -75,11 +75,11 @@ def validate_house_add_data(data):
 
 
 def validate_house_edit_data(data):
-    required_fields = ('town', 'district', 'street',
-                       'house_number', 'corpus_number',
-                       'client_id', 'is_actual', 'id_house')
 
-    nullable_fields = ('flat_number', 'cadastr_number')
+    required_fields = ('id_house', 'adress',
+                       'cadastr_number', 'id_client', 'is_actual')
+
+    nullable_fields = ()
 
     return proceed_validation(data, required_fields, nullable_fields)
 
