@@ -117,6 +117,9 @@ def update_in_Person(**params):
 
             db.commit()
 
+        else:
+            return "ERROR"
+
 
 def update_in_Organization(**params):
     with Session(autoflush=False, bind=ENGINE) as db:
@@ -134,6 +137,9 @@ def update_in_Organization(**params):
                     setattr(item, key, value)
 
             db.commit()
+
+        else:
+            return "ERROR"
 
 
 def update_in_House(**params):
@@ -211,6 +217,9 @@ def update_in_House(**params):
 
             db.commit()
 
+        else:
+            return "ERROR"
+
 
 def update_in_HouseEquip(**params):
     with Session(autoflush=False, bind=ENGINE) as db:
@@ -231,6 +240,9 @@ def update_in_HouseEquip(**params):
                     setattr(item, key, value)
 
             db.commit()
+
+        else:
+            return "ERROR"
 
 
 def delete_from_Person(**params):
