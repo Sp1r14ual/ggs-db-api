@@ -99,34 +99,6 @@ def insert_in_HouseEquip(**params):
         return item.id
 
 
-def read_from_Person(**params):
-
-    with Session(autoflush=False, bind=ENGINE) as db:
-        item = db.query(md.Person).filter_by(**params).first()
-        return item.id
-
-
-def read_from_Organization(**params):
-
-    with Session(autoflush=False, bind=ENGINE) as db:
-        item = db.query(md.Organization).filter_by(**params).first()
-        return item.id
-
-
-def read_from_House(**params):
-
-    with Session(autoflush=False, bind=ENGINE) as db:
-        item = db.query(md.House).filter_by(**params).first()
-        return item.id
-
-
-def read_from_HouseEquip(**params):
-
-    with Session(autoflush=False, bind=ENGINE) as db:
-        item = db.query(md.HouseEquip).filter_by(**params).first()
-        return item.id
-
-
 def update_in_Person(**params):
 
     with Session(autoflush=False, bind=ENGINE) as db:
@@ -144,6 +116,9 @@ def update_in_Person(**params):
                     setattr(item, key, value)
 
             db.commit()
+
+        else:
+            return "ERROR"
 
 
 def update_in_Organization(**params):
@@ -163,6 +138,9 @@ def update_in_Organization(**params):
 
             db.commit()
 
+        else:
+            return "ERROR"
+
 
 def update_in_House(**params):
     with Session(autoflush=False, bind=ENGINE) as db:
@@ -174,7 +152,10 @@ def update_in_House(**params):
 
         if (house != None):
             for key, value in params.items():
-                if key == "id" or key == "id_house" or key == "client_id":
+                if key == "id" or key == "id_house" or key == "id_client":
+                    continue
+
+                if key == "adress":
                     continue
 
                 if key == "town":
@@ -216,22 +197,9 @@ def update_in_House(**params):
                         house.id_street = street.id
                         continue
 
-                # if key == "client_id":
-                #     house_owner = db.query(md.HouseOwner).filter(
-                #         md.HouseOwner.id_house == params["id_house"]).first()
-
-                #     if house_owner == None:
-                #         return "ERROR"
-
-                #     if house_owner.id_person == params["client_id"]:
-                #         continue
-                #     else:
-                #         house_owner.id_person = params["client_id"]
-                #         continue
-
                 if key == "is_actual":
                     house_owner = db.query(md.HouseOwner).filter(and_(
-                        md.HouseOwner.id_house == params["id_house"], md.HouseOwner.id_person == params["client_id"])).first()
+                        md.HouseOwner.id_house == params["id_house"], md.HouseOwner.id_person == params["id_client"])).first()
 
                     if house_owner == None:
                         return "ERROR"
@@ -248,6 +216,9 @@ def update_in_House(**params):
                     setattr(house, key, value)
 
             db.commit()
+
+        else:
+            return "ERROR"
 
 
 def update_in_HouseEquip(**params):
@@ -269,6 +240,9 @@ def update_in_HouseEquip(**params):
                     setattr(item, key, value)
 
             db.commit()
+
+        else:
+            return "ERROR"
 
 
 def delete_from_Person(**params):
