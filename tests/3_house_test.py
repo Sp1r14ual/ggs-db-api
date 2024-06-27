@@ -1,6 +1,8 @@
 import requests
 import json
 
+ITEM_ID = None
+
 
 def test_insert_in_house():
     # URL сервера, куда отправляем запрос
