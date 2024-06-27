@@ -1,0 +1,7 @@
+flask
+dadata
+sqlalchemy
+pyodbc
+pytest
+requests
+py-mon
