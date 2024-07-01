@@ -4,6 +4,7 @@ from flask_smorest import Blueprint, abort
 from dadata import Dadata
 import crud
 from schemas.HouseSchema import AddHouseSchema, EditHouseSchema, DeleteHouseSchema
+from schemas.ResponseSchema import AddSchema, EditDeleteSchema
 
 # Спрятать
 DADATA_TOKEN = "030304aa17b5f2adfda47289fa7030f73513f8b7"
@@ -14,10 +15,12 @@ blp = Blueprint("House", __name__, description="CRUD Operations on House")
 
 @blp.route("/house")
 class House(MethodView):
+    @blp.response(405)
     def get(self):
         abort(405, message="Method is not allowed")
 
     @blp.arguments(AddHouseSchema)
+    @blp.response(200, AddSchema)
     def post(self, data):
         global parsed_data
         parsed_data = dict()
@@ -44,6 +47,7 @@ class House(MethodView):
         return jsonify({'status_code': 200, 'id_house': id}), 200
 
     @blp.arguments(EditHouseSchema)
+    @blp.response(200, EditDeleteSchema)
     def put(self, data):
         global parsed_data
         parsed_data = dict()
@@ -67,6 +71,7 @@ class House(MethodView):
         return jsonify({'status_code': 200}), 200
 
     @blp.arguments(DeleteHouseSchema)
+    @blp.response(200, EditDeleteSchema)
     def delete(self, data):
         if crud.delete_from_House(**data) == "ERROR":
             # app.logger.error("Delete From House: Item doesn't exist")
