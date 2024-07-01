@@ -1,17 +1,18 @@
 import requests
 import json
 
+URL = 'http://127.0.0.1:5000/house_equip'
+ITEM_ID = None
+ID_HOUSE = 140029
+
 
 def test_insert_in_house_equip():
-    # URL сервера, куда отправляем запрос
     global ITEM_ID
-    url = 'http://127.0.0.1:5000/add_house_equip'
 
-    data_to_send = {'id_house': 140040, 'id_type_house_equip': 4,
+    data_to_send = {'id_house': ID_HOUSE, 'id_type_house_equip': 4,
                     'year_produce': 2077, 'remark': 'blablabla'}
 
-    # Отправляем POST запрос с JSON данными
-    response = requests.post(url, json=data_to_send)
+    response = requests.post(URL, json=data_to_send)
 
     response_json = response.json()
     ITEM_ID = response_json["id_house_equip"]
@@ -23,14 +24,10 @@ def test_insert_in_house_equip():
 
 
 def test_update_in_house_equip():
-    # URL сервера, куда отправляем запрос
-    url = 'http://127.0.0.1:5000/edit_house_equip'
-
-    data_to_send = {'id_house_equip': ITEM_ID, 'house_id': 140040, 'id_type_house_equip': 3,
+    data_to_send = {'id_house_equip': ITEM_ID, 'house_id': ID_HOUSE, 'id_type_house_equip': 3,
                     'year_produce': 2069, 'remark': 'bimbimbimbambambam'}
 
-    # Отправляем POST запрос с JSON данными
-    response = requests.put(url, json=data_to_send)
+    response = requests.put(URL, json=data_to_send)
 
     response_json = response.json()
     print("Ответ от сервера:")
@@ -40,13 +37,9 @@ def test_update_in_house_equip():
 
 
 def test_delete_from_house_equip():
-    # URL сервера, куда отправляем запрос
-    url = 'http://127.0.0.1:5000/delete_house_equip'
-
     data_to_send = {'id_house_equip': ITEM_ID}
 
-    # Отправляем POST запрос с JSON данными
-    response = requests.delete(url, json=data_to_send)
+    response = requests.delete(URL, json=data_to_send)
 
     response_json = response.json()
     print("Ответ от сервера:")

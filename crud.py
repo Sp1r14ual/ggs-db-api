@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 import models as md
 
 ENGINE = create_engine(
-    'mssql+pyodbc://DESKTOP-4KRGT6O\\SQLEXPRESS/ggs_stud?driver=SQL+Server+Native+Client+11.0', echo=True)
+    'mssql+pyodbc://DESKTOP-OE5G1EA\\SQLEXPRESS/ggs_stud?driver=SQL+Server+Native+Client+11.0', echo=True)
 
 
 def insert_in_Person(**params):
