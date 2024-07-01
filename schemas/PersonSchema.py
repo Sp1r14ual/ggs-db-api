@@ -1,0 +1,58 @@
+from marshmallow import Schema, fields
+
+
+class AddPersonSchema(Schema):
+    id_client = fields.Int(dump_only=True)
+    status_code = fields.Int(dump_only=True)
+    family_name = fields.Str(required=True)
+    birthdate = fields.Str(required=True)
+    phone_number = fields.Str(required=True)
+    name = fields.Str(required=True)
+    patronimic_name = fields.Str(required=False)
+    pasport_serial = fields.Str(required=False)
+    pasport_number = fields.Str(required=False)
+    pasport_date = fields.Str(required=False)
+    pasport_place = fields.Str(required=False)
+    dep_code = fields.Str(required=False)
+    reg_adress = fields.Str(required=False)
+    reg_region = fields.Str(required=False)
+    reg_raion = fields.Str(required=False)
+    reg_city = fields.Str(required=False)
+    reg_street = fields.Str(required=False)
+    reg_house = fields.Str(required=False)
+    postal_index = fields.Str(required=False)
+    inn = fields.Str(required=False)
+    ogrn = fields.Str(required=False)
+    snils = fields.Str(required=False)
+    email = fields.Str(required=False)
+
+
+class EditPersonSchema(Schema):
+    status_code = fields.Int(dump_only=True)
+    client_id = fields.Int(required=True)
+    family_name = fields.Str(required=True)
+    name = fields.Str(required=True)
+    birthdate = fields.Str(required=False)
+    phone_number = fields.Str(required=False)
+    patronimic_name = fields.Str(required=False)
+    pasport_serial = fields.Str(required=False)
+    pasport_number = fields.Str(required=False)
+    pasport_date = fields.Str(required=False)
+    pasport_place = fields.Str(required=False)
+    dep_code = fields.Str(required=False)
+    reg_adress = fields.Str(required=False)
+    reg_region = fields.Str(required=False)
+    reg_raion = fields.Str(required=False)
+    reg_city = fields.Str(required=False)
+    reg_street = fields.Str(required=False)
+    reg_house = fields.Str(required=False)
+    postal_index = fields.Str(required=False)
+    inn = fields.Str(required=False)
+    ogrn = fields.Str(required=False)
+    snils = fields.Str(required=False)
+    email = fields.Str(required=False)
+
+
+class DeletePersonSchema(Schema):
+    status_code = fields.Int(dump_only=True)
+    id_client = fields.Int(required=True)

@@ -8,7 +8,7 @@ ITEM_ID = None
 def test_insert_in_person():
     global ITEM_ID
 
-    data_to_send = {'family_name': 'Drozdenko',
+    data_to_send = {'family_name': 'Panasenko',
                     'name': 'Sergey', 'birthdate': '20.01.2001', 'phone_number': '89138946221'}
 
     response = requests.post(URL, json=data_to_send)

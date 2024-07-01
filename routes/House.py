@@ -3,7 +3,7 @@ from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from dadata import Dadata
 import crud
-import validate_data as vd
+from schemas.HouseSchema import AddHouseSchema, EditHouseSchema, DeleteHouseSchema
 
 # Спрятать
 DADATA_TOKEN = "030304aa17b5f2adfda47289fa7030f73513f8b7"
@@ -17,17 +17,10 @@ class House(MethodView):
     def get(self):
         abort(405, message="Method is not allowed")
 
-    def post(self):
-        data = request.get_json(force=True)
-
+    @blp.arguments(AddHouseSchema)
+    def post(self, data):
         global parsed_data
         parsed_data = dict()
-
-        is_valid, validate_message = vd.validate_house_add_data(data)
-        if not is_valid:
-            # app.logger.error("Insert In House: Validation failed")
-            # return jsonify({'status_code': 400, 'message': validate_message}), 400
-            abort(400, message=validate_message)
 
         with Dadata(DADATA_TOKEN, DADATA_SECRET) as dd:
             parsed_address = dd.clean("address", data["adress"])
@@ -50,17 +43,10 @@ class House(MethodView):
 
         return jsonify({'status_code': 200, 'id_house': id}), 200
 
-    def put(self):
-        data = request.get_json(force=True)
-
+    @blp.arguments(EditHouseSchema)
+    def put(self, data):
         global parsed_data
         parsed_data = dict()
-
-        is_valid, validate_message = vd.validate_house_edit_data(data)
-        if not is_valid:
-            # app.logger.error("Update In House: Validation failed")
-            # return jsonify({'status_code': 400, 'message': validate_message}), 400
-            abort(400, message=validate_message)
 
         with Dadata(DADATA_TOKEN, DADATA_SECRET) as dd:
             parsed_address = dd.clean("address", data["adress"])
@@ -80,15 +66,8 @@ class House(MethodView):
 
         return jsonify({'status_code': 200}), 200
 
-    def delete(self):
-        data = request.get_json(force=True)
-
-        is_valid, validate_message = vd.validate_house_delete_data(data)
-        if not is_valid:
-            # app.logger.error("Delete From House: Validation failed")
-            # return jsonify({'status_code': 400, 'message': validate_message}), 400
-            abort(400, message=validate_message)
-
+    @blp.arguments(DeleteHouseSchema)
+    def delete(self, data):
         if crud.delete_from_House(**data) == "ERROR":
             # app.logger.error("Delete From House: Item doesn't exist")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
