@@ -1,10 +1,10 @@
 from flask import Flask
 from flask_smorest import Api
 
-from routes.Person import blp as PersonBlueprint
-from routes.Organization import blp as OrganizationBlueprint
-from routes.House import blp as HouseBlueprint
-from routes.HouseEquip import blp as HouseEquipBlueprint
+from Routes.Person import blp as PersonBlueprint
+from Routes.Organization import blp as OrganizationBlueprint
+from Routes.House import blp as HouseBlueprint
+from Routes.HouseEquip import blp as HouseEquipBlueprint
 
 app = Flask(__name__)
 
