@@ -2,15 +2,12 @@ from flask import request, jsonify
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from dadata import Dadata
+from DaData.DaDataCredits import DADATA_TOKEN, DADATA_SECRET
 from CRUD.House.HouseInsert import insert_in_House
 from CRUD.House.HouseUpdate import update_in_House
 from CRUD.House.HouseDelete import delete_from_House
 from Schemas.HouseSchema import AddHouseSchema, EditHouseSchema, DeleteHouseSchema
 from Schemas.ResponseSchema import AddSchema, EditDeleteSchema
-
-# Спрятать
-DADATA_TOKEN = "030304aa17b5f2adfda47289fa7030f73513f8b7"
-DADATA_SECRET = "1fcf05efb6b0521fe6cbbc4f2dcb1a211406e91a"
 
 blp = Blueprint("House", __name__, description="CRUD Operations on House")
 

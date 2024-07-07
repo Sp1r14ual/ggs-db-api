@@ -2,3 +2,4 @@ __pycache__
 .pytest_cache
 record.log
 .venv
+DaData.json
