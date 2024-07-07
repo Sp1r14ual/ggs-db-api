@@ -1,9 +1,11 @@
 from flask import request, jsonify
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-import crud
-from schemas.HouseEquipSchema import AddHouseEquipSchema, EditHouseEquipSchema, DeleteHouseEquipSchema
-from schemas.ResponseSchema import AddSchema, EditDeleteSchema
+from CRUD.HouseEquip.HouseEquipInsert import insert_in_HouseEquip
+from CRUD.HouseEquip.HouseEquipUpdate import update_in_HouseEquip
+from CRUD.HouseEquip.HouseEquipDelete import delete_from_HouseEquip
+from Schemas.HouseEquipSchema import AddHouseEquipSchema, EditHouseEquipSchema, DeleteHouseEquipSchema
+from Schemas.ResponseSchema import AddSchema, EditDeleteSchema
 
 blp = Blueprint("HouseEquip", __name__,
                 description="CRUD Operations on HouseEquip")
@@ -18,7 +20,7 @@ class HouseEquip(MethodView):
     @blp.arguments(AddHouseEquipSchema)
     @blp.response(200, AddSchema)
     def post(self, data):
-        id = crud.insert_in_HouseEquip(**data)
+        id = insert_in_HouseEquip(**data)
 
         # app.logger.info(f"Insert In HouseEquip: Success; ID: {id}")
 
@@ -27,7 +29,7 @@ class HouseEquip(MethodView):
     @blp.arguments(EditHouseEquipSchema)
     @blp.response(200, EditDeleteSchema)
     def put(self, data):
-        if crud.update_in_HouseEquip(**data) == "ERROR":
+        if update_in_HouseEquip(**data) == "ERROR":
             # app.logger.error("Update In HouseEquip: Item doesn't exist")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
             abort(400, message="Error: item doesn't exist")
@@ -39,7 +41,7 @@ class HouseEquip(MethodView):
     @blp.arguments(DeleteHouseEquipSchema)
     @blp.response(200, EditDeleteSchema)
     def delete(self, data):
-        if crud.delete_from_HouseEquip(**data) == "ERROR":
+        if delete_from_HouseEquip(**data) == "ERROR":
             # app.logger.error("Delete From HouseEquip: Item doesn't exist")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
             abort(400, message="Error: item doesn't exist")

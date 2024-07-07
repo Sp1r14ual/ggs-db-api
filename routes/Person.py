@@ -1,9 +1,11 @@
 from flask import request, jsonify
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-import crud
-from schemas.PersonSchema import AddPersonSchema, EditPersonSchema, DeletePersonSchema
-from schemas.ResponseSchema import AddSchema, EditDeleteSchema
+from CRUD.Person.PersonInsert import insert_in_Person
+from CRUD.Person.PersonUpdate import update_in_Person
+from CRUD.Person.PersonDelete import delete_from_Person
+from Schemas.PersonSchema import AddPersonSchema, EditPersonSchema, DeletePersonSchema
+from Schemas.ResponseSchema import AddSchema, EditDeleteSchema
 # import logging
 
 blp = Blueprint("Person", __name__, description="CRUD Operations on Person")
@@ -18,7 +20,7 @@ class Person(MethodView):
     @blp.arguments(AddPersonSchema)
     @blp.response(200, AddSchema)
     def post(self, data):
-        id = crud.insert_in_Person(**data)
+        id = insert_in_Person(**data)
 
         # app.logger.info(f"Insert in Person: Success; ID: {id}")
 
@@ -27,7 +29,7 @@ class Person(MethodView):
     @blp.arguments(EditPersonSchema)
     @blp.response(200, EditDeleteSchema)
     def put(self, data):
-        if crud.update_in_Person(**data) == "ERROR":
+        if update_in_Person(**data) == "ERROR":
             # app.logger.error("Update In Person: Item doesn't exist")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
             abort(400, message="Error: item doesn't exist")
@@ -39,7 +41,7 @@ class Person(MethodView):
     @blp.arguments(DeletePersonSchema)
     @blp.response(200, EditDeleteSchema)
     def delete(self, data):
-        if crud.delete_from_Person(**data) == "ERROR":
+        if delete_from_Person(**data) == "ERROR":
             # app.logger.error("Delete From Person: Item doesn't exist")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
             abort(400, message="Error: item doesn't exist")
