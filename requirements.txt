@@ -7,3 +7,4 @@ pyodbc
 pytest
 requests
 py-mon
+loguru

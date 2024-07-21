@@ -6,6 +6,7 @@ from CRUD.Organization.OrganizationUpdate import update_in_Organization
 from CRUD.Organization.OrganizationDelete import delete_from_Organization
 from Schemas.OrganizationSchema import AddOrganizationSchema, EditOrganizationSchema, DeleteOrganizationSchema
 from Schemas.ResponseSchema import AddSchema, EditDeleteSchema
+from logger import logger
 
 blp = Blueprint("Organization", __name__,
                 description="CRUD Operations on Organization")
@@ -22,7 +23,7 @@ class Organization(MethodView):
     def post(self, data):
         id = insert_in_Organization(**data)
 
-        # app.logger.info(f"Insert in Organization: Success; ID: {id}")
+        logger.info(f"Insert in Organization: Success; ID: {id}")
 
         return jsonify({'status_code': 200, 'id_organization': id}), 200
 
@@ -30,11 +31,11 @@ class Organization(MethodView):
     @blp.response(200, EditDeleteSchema)
     def put(self, data):
         if update_in_Organization(**data) == "ERROR":
-            # app.logger.error("Update In Organization: Item doesn't exist")
+            logger.error("Update In Organization: Item doesn't exist")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
             abort(400, message="Error: item doesn't exist")
 
-        # app.logger.info(f"Update in Organization: Success")
+        logger.info(f"Update in Organization: Success")
 
         return jsonify({'status_code': 200}), 200
 
@@ -42,10 +43,10 @@ class Organization(MethodView):
     @blp.response(200, EditDeleteSchema)
     def delete(self, data):
         if delete_from_Organization(**data) == "ERROR":
-            # app.logger.error("Delete From Organization: Item doesn't exist")
+            logger.error("Delete From Organization: Item doesn't exist")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
             abort(400, message="Error: item doesn't exist")
 
-        # app.logger.info(f"Delete From Organization: Success")
+        logger.info(f"Delete From Organization: Success")
 
         return jsonify({'status_code': 200}), 200
