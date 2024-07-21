@@ -1,6 +1,7 @@
 from flask import request, jsonify
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+from flask_jwt_extended import jwt_required
 from dadata import Dadata
 from DaData.DaDataCredits import DADATA_TOKEN, DADATA_SECRET
 from CRUD.House.HouseInsert import insert_in_House
@@ -19,6 +20,7 @@ class House(MethodView):
     def get(self):
         abort(405, message="Method is not allowed")
 
+    @jwt_required()
     @blp.arguments(AddHouseSchema)
     @blp.response(200, AddSchema)
     def post(self, data):
@@ -46,6 +48,7 @@ class House(MethodView):
 
         return jsonify({'status_code': 200, 'id_house': id}), 200
 
+    @jwt_required()
     @blp.arguments(EditHouseSchema)
     @blp.response(200, EditDeleteSchema)
     def put(self, data):
@@ -70,6 +73,7 @@ class House(MethodView):
 
         return jsonify({'status_code': 200}), 200
 
+    @jwt_required()
     @blp.arguments(DeleteHouseSchema)
     @blp.response(200, EditDeleteSchema)
     def delete(self, data):

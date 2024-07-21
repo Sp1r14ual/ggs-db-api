@@ -1,6 +1,7 @@
 from flask import request, jsonify
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+from flask_jwt_extended import jwt_required
 from CRUD.HouseEquip.HouseEquipInsert import insert_in_HouseEquip
 from CRUD.HouseEquip.HouseEquipUpdate import update_in_HouseEquip
 from CRUD.HouseEquip.HouseEquipDelete import delete_from_HouseEquip
@@ -18,6 +19,7 @@ class HouseEquip(MethodView):
     def get(self):
         abort(405, message="Method is not allowed")
 
+    @jwt_required()
     @blp.arguments(AddHouseEquipSchema)
     @blp.response(200, AddSchema)
     def post(self, data):
@@ -27,6 +29,7 @@ class HouseEquip(MethodView):
 
         return jsonify({'status_code': 200, 'id_house_equip': id}), 200
 
+    @jwt_required()
     @blp.arguments(EditHouseEquipSchema)
     @blp.response(200, EditDeleteSchema)
     def put(self, data):
@@ -39,6 +42,7 @@ class HouseEquip(MethodView):
 
         return jsonify({'status_code': 200}), 200
 
+    @jwt_required()
     @blp.arguments(DeleteHouseEquipSchema)
     @blp.response(200, EditDeleteSchema)
     def delete(self, data):

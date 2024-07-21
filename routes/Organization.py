@@ -1,6 +1,7 @@
 from flask import request, jsonify
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+from flask_jwt_extended import jwt_required
 from CRUD.Organization.OrganizationInsert import insert_in_Organization
 from CRUD.Organization.OrganizationUpdate import update_in_Organization
 from CRUD.Organization.OrganizationDelete import delete_from_Organization
@@ -18,6 +19,7 @@ class Organization(MethodView):
     def get(self):
         abort(405, message="Method is not allowed")
 
+    @jwt_required()
     @blp.arguments(AddOrganizationSchema)
     @blp.response(200, AddSchema)
     def post(self, data):
@@ -27,6 +29,7 @@ class Organization(MethodView):
 
         return jsonify({'status_code': 200, 'id_organization': id}), 200
 
+    @jwt_required()
     @blp.arguments(EditOrganizationSchema)
     @blp.response(200, EditDeleteSchema)
     def put(self, data):
@@ -39,6 +42,7 @@ class Organization(MethodView):
 
         return jsonify({'status_code': 200}), 200
 
+    @jwt_required()
     @blp.arguments(DeleteOrganizationSchema)
     @blp.response(200, EditDeleteSchema)
     def delete(self, data):
