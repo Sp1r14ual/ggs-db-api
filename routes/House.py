@@ -1,6 +1,7 @@
 from flask import request, jsonify
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+from flask_jwt_extended import jwt_required
 from dadata import Dadata
 from DaData.DaDataCredits import DADATA_TOKEN, DADATA_SECRET
 from CRUD.House.HouseInsert import insert_in_House
@@ -8,6 +9,7 @@ from CRUD.House.HouseUpdate import update_in_House
 from CRUD.House.HouseDelete import delete_from_House
 from Schemas.HouseSchema import AddHouseSchema, EditHouseSchema, DeleteHouseSchema
 from Schemas.ResponseSchema import AddSchema, EditDeleteSchema
+from logger import logger
 
 blp = Blueprint("House", __name__, description="CRUD Operations on House")
 
@@ -18,6 +20,7 @@ class House(MethodView):
     def get(self):
         abort(405, message="Method is not allowed")
 
+    @jwt_required()
     @blp.arguments(AddHouseSchema)
     @blp.response(200, AddSchema)
     def post(self, data):
@@ -37,14 +40,15 @@ class House(MethodView):
         id = insert_in_House(**dict(data, **parsed_data))
 
         if id == "ERROR":
-            # app.logger.error("Insert In House: Item doesn't exist")
+            logger.error("Insert In House: Item doesn't exist")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
             abort(400, message="Error: item doesn't exist")
 
-        # app.logger.info(f"Insert In House: Success; ID: {id}")
+        logger.info(f"Insert In House: Success; ID: {id}")
 
         return jsonify({'status_code': 200, 'id_house': id}), 200
 
+    @jwt_required()
     @blp.arguments(EditHouseSchema)
     @blp.response(200, EditDeleteSchema)
     def put(self, data):
@@ -61,22 +65,23 @@ class House(MethodView):
             parsed_data["flat_number"] = parsed_address["flat"]
 
         if update_in_House(**dict(data, **parsed_data)) == "ERROR":
-            # app.logger.error("Update In House: Item doesn't exist")
+            logger.error("Update In House: Item doesn't exist")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
             abort(400, message="Error: item doesn't exist")
 
-        # app.logger.info(f"Update In House: Success")
+        logger.info(f"Update In House: Success")
 
         return jsonify({'status_code': 200}), 200
 
+    @jwt_required()
     @blp.arguments(DeleteHouseSchema)
     @blp.response(200, EditDeleteSchema)
     def delete(self, data):
         if delete_from_House(**data) == "ERROR":
-            # app.logger.error("Delete From House: Item doesn't exist")
+            logger.error("Delete From House: Item doesn't exist")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
             abort(400, message="Error: item doesn't exist")
 
-        # app.logger.info(f"Delete From House: Success")
+        logger.info(f"Delete From House: Success")
 
         return jsonify({'status_code': 200}), 200
