@@ -3,7 +3,7 @@ from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from flask_jwt_extended import create_access_token
 from Schemas.AdminSchema import AdminSchema
-from Schemas.ResponseSchema import EditDeleteSchema  # ???
+# from Schemas.ResponseSchema import EditDeleteSchema  # ???
 from Auth.AdminAuth import authenticate
 
 from logger import logger
@@ -18,12 +18,14 @@ class AdminLogin(MethodView):
         abort(405, message="Method is not allowed")
 
     @blp.arguments(AdminSchema)
-    @blp.response(200, EditDeleteSchema)  # ???
+    # @blp.response(200, EditDeleteSchema)  # ???
     def post(self, data):
         if not authenticate(data["login"]):
+            logger.error("Authentication Failed")
             abort(401, message="Invalid credentials.")
 
         access_token = create_access_token(identity=data["login"])
+        logger.info(f"Successful Authentification: Login {data["login"]}")
         return jsonify({"access_token": access_token}), 200
 
     @blp.response(405)
