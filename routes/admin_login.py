@@ -3,7 +3,6 @@ from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from flask_jwt_extended import create_access_token
 from schemas.admin_schema import AdminSchema
-# from Schemas.ResponseSchema import EditDeleteSchema  # ???
 from auth.admin_auth import authenticate
 
 from logger import logger
@@ -18,7 +17,7 @@ class AdminLogin(MethodView):
         abort(405, message="Method is not allowed")
 
     @blp.arguments(AdminSchema)
-    # @blp.response(200, EditDeleteSchema)  # ???
+    @blp.response(200, AdminSchema)
     def post(self, data):
         if not authenticate(data["login"]):
             logger.error("Authentication Failed")
