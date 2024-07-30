@@ -3,11 +3,11 @@ from flask_smorest import Api
 from flask_jwt_extended import JWTManager
 import secrets
 
-from Routes.Person import blp as PersonBlueprint
-from Routes.Organization import blp as OrganizationBlueprint
-from Routes.House import blp as HouseBlueprint
-from Routes.HouseEquip import blp as HouseEquipBlueprint
-from Routes.AdminLogin import blp as AdminLoginBlueprint
+from routes.person import blp as person_blueprint
+from routes.organization import blp as organization_blueprint
+from routes.house import blp as house_blueprint
+from routes.house_equip import blp as house_equip_blueprint
+from routes.admin_login import blp as admin_login_blueprint
 
 app = Flask(__name__)
 
@@ -23,8 +23,8 @@ jwt = JWTManager(app)
 
 api = Api(app)
 
-api.register_blueprint(PersonBlueprint)
-api.register_blueprint(OrganizationBlueprint)
-api.register_blueprint(HouseBlueprint)
-api.register_blueprint(HouseEquipBlueprint)
-api.register_blueprint(AdminLoginBlueprint)
+api.register_blueprint(person_blueprint)
+api.register_blueprint(organization_blueprint)
+api.register_blueprint(house_blueprint)
+api.register_blueprint(house_equip_blueprint)
+api.register_blueprint(admin_login_blueprint)
