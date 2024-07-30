@@ -1,12 +1,12 @@
-from flask import request, jsonify
+from flask import jsonify
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from flask_jwt_extended import jwt_required
-from CRUD.Organization.OrganizationInsert import insert_in_Organization
-from CRUD.Organization.OrganizationUpdate import update_in_Organization
-from CRUD.Organization.OrganizationDelete import delete_from_Organization
-from Schemas.OrganizationSchema import AddOrganizationSchema, EditOrganizationSchema, DeleteOrganizationSchema
-from Schemas.ResponseSchema import AddSchema, EditDeleteSchema
+from db.organization.organization_insert import insert_in_Organization
+from db.organization.organization_update import update_in_Organization
+from db.organization.organization_delete import delete_from_Organization
+from schemas.organization_schema import AddOrganizationSchema, EditOrganizationSchema, DeleteOrganizationSchema
+from schemas.response_schema import AddSchema, EditDeleteSchema
 from logger import logger
 
 blp = Blueprint("Organization", __name__,

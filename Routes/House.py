@@ -1,14 +1,14 @@
-from flask import request, jsonify
+from flask import jsonify
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from flask_jwt_extended import jwt_required
 from dadata import Dadata
-from DaData.DaDataCredits import DADATA_TOKEN, DADATA_SECRET
-from CRUD.House.HouseInsert import insert_in_House
-from CRUD.House.HouseUpdate import update_in_House
-from CRUD.House.HouseDelete import delete_from_House
-from Schemas.HouseSchema import AddHouseSchema, EditHouseSchema, DeleteHouseSchema
-from Schemas.ResponseSchema import AddSchema, EditDeleteSchema
+from dadata_auth.dadata_credits import DADATA_TOKEN, DADATA_SECRET
+from db.house.house_insert import insert_in_House
+from db.house.house_update import update_in_House
+from db.house.house_delete import delete_from_House
+from schemas.house_schema import AddHouseSchema, EditHouseSchema, DeleteHouseSchema
+from schemas.response_schema import AddSchema, EditDeleteSchema
 from logger import logger
 
 blp = Blueprint("House", __name__, description="CRUD Operations on House")

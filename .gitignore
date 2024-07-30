@@ -2,5 +2,5 @@ __pycache__
 .pytest_cache
 history.log
 .venv
-DaData.json
+dadata.json
 .idea

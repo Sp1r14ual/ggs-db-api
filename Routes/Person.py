@@ -2,11 +2,11 @@ from flask import request, jsonify
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from flask_jwt_extended import jwt_required
-from CRUD.Person.PersonInsert import insert_in_Person
-from CRUD.Person.PersonUpdate import update_in_Person
-from CRUD.Person.PersonDelete import delete_from_Person
-from Schemas.PersonSchema import AddPersonSchema, EditPersonSchema, DeletePersonSchema
-from Schemas.ResponseSchema import AddSchema, EditDeleteSchema
+from db.person.person_insert import insert_in_Person
+from db.person.person_update import update_in_Person
+from db.person.person_delete import delete_from_Person
+from schemas.person_schema import AddPersonSchema, EditPersonSchema, DeletePersonSchema
+from schemas.response_schema import AddSchema, EditDeleteSchema
 from logger import logger
 
 blp = Blueprint("Person", __name__, description="CRUD Operations on Person")
