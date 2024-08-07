@@ -3,7 +3,6 @@ from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from flask_jwt_extended import jwt_required
 from dadata import Dadata
-# from dadata_auth.dadata_credits import DADATA_TOKEN, DADATA_SECRET
 from settings import DADATA_TOKEN, DADATA_SECRET
 from db.house.house_insert import insert_in_House
 from db.house.house_update import update_in_House
