@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_smorest import Api
 from flask_jwt_extended import JWTManager
-import secrets
+import settings
 
 from routes.person import blp as person_blueprint
 from routes.organization import blp as organization_blueprint
@@ -17,7 +17,7 @@ app.config["OPENAPI_VERSION"] = "3.1.3"
 app.config["OPENAPI_URL_PREFIX"] = "/"
 app.config["OPENAPI_SWAGGER_UI_PATH"] = "/docs"
 app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
-app.config["JWT_SECRET_KEY"] = str(secrets.SystemRandom().getrandbits(128))
+app.config["JWT_SECRET_KEY"] = settings.JWT_SECRET_KEY
 
 jwt = JWTManager(app)
 
@@ -28,3 +28,7 @@ api.register_blueprint(organization_blueprint)
 api.register_blueprint(house_blueprint)
 api.register_blueprint(house_equip_blueprint)
 api.register_blueprint(admin_login_blueprint)
+
+if __name__ == '__main__':
+    app.run(host=settings.HOST,
+            port=settings.PORT, debug=True)

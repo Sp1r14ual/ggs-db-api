@@ -2,7 +2,7 @@
 
 Данный проект представляет собой API для взаимодействия с базой данных ggs-stud.
 
-Инструкция по установки:
+Инструкция по установке:
 
 1. Убедитесь в том, что на устройстве корректно развёрнута база данных ggs_stud.
    Для этого в SQL Server Management Studio проделайте следующие действия:
@@ -17,39 +17,41 @@
 2. В директории с проектом требуется развернуть виртуальное окружение Python.
    Для этого в командной строке выполните следующий сценарий
 
-```shell
-python -m venv .venv
-.venv/Scripts/activate
-```
+   ```shell
+   python -m venv .venv
+   .venv/Scripts/activate
+   ```
 
-Либо
+   Либо
 
-```shell
-python -m pip install virtualenv
-python -m virtualenv .venv
-.venv/bin/activate
-```
+   ```shell
+   python -m pip install virtualenv
+   python -m virtualenv .venv
+   .venv/bin/activate
+   ```
 
-В командной строке появится индикатор активного виртуального окружения:
+   В командной строке появится индикатор активного виртуального окружения:
 
-![](assets/3.png)
+   ![](assets/3.png)
 
-Для выхода из виртуального окружения просто вызовите
+   Для выхода из виртуального окружения просто вызовите
 
-```shell
-deactivate
-```
+   ```shell
+   deactivate
+   ```
 
-![](assets/4.png)
+   ![](assets/4.png)
 
-**Примечание 1.** В зависимости от терминала может потребоваться заменить "/" на "\\".
+   **Примечание 1.** В зависимости от терминала может потребоваться заменить "/" на "\\".
 
-**Примечание 2.** Выполнение данных команд требует наличие пути до Python в системной переменной Path. Для этого во время установки Python выберите опцию "Add Python 3.x to PATH"
+   **Примечание 2.** Выполнение данных команд требует наличие пути до Python в системной переменной Path. Для этого во время установки Python выберите опцию "Add Python 3.x to PATH"
 
-![](assets/5.jpg)
+   **Примечание 3.** `.venv` - имя виртуального окружения. Может быть любым.
 
-Либо можно добавить Python в системную переменную PATH вручную:
-`"Панель управления" -> "Изменение системных переменных среды" -> "Переменные среды" -> "Переменные среды пользователя" -> Выбрать "Path" -> Изменить -> Создать -> Вставляете абсолютный путь до директории с установленным Python`
+   ![](assets/5.jpg)
+
+   Либо можно добавить Python в системную переменную PATH вручную:
+   `"Панель управления" -> "Изменение системных переменных среды" -> "Переменные среды" -> "Переменные среды пользователя" -> Выбрать "Path" -> Изменить -> Создать -> Вставляете абсолютный путь до директории с установленным Python`
 
 3. После активации виртуального окружения требуется установить необходимые для работы приложения зависимости. Список зависимостей находится в файле `requirements.txt`. Для их установки достаточно вызвать команду
 
@@ -70,14 +72,12 @@ deactivate
 
    ![](assets/6.png)
 
-5. Также для корректной работы необходимо настроить доступ к API сервиса DaData. В целях безопасности файл `dadata_auth\dadata.json` с токенами доступа был добавлен в `.gitignore`. Пользователю требуется самостоятельно создать данный файл со следующим содержанием:
+5. Также для корректной работы необходимо настроить доступ к API сервиса DaData. Пользователю требуется переименовать файл `.env.example` в `.env` и добавить в него следующее содержимое:
 
-```json
-{
-  "DADATA_TOKEN": "YOUR_TOKEN",
-  "DADATA_SECRET": "YOUR_SECRET"
-}
-```
+   ```.env
+   DADATA_TOKEN=YOUR_TOKEN
+   DADATA_SECRET=YOUR_SECRET
+   ```
 
 6. Чтобы запустить веб-сервер, активируйте виртуальное окружение и вызовите команду
 
@@ -85,12 +85,18 @@ deactivate
    flask run
    ```
 
+   или
+
+   ```shell
+   python app.py
+   ```
+
    ![](assets/7.png)
 
 7. Для удобства проверки корректности работы были реализованы автотесты, находящиеся в директории `tests`. Для их запуска требуется вызвать команду
 
    ```shell
-   pytest
+   python -m pytest
    ```
 
    Данный фреймворк был также добавлен в список зависимостей `requirements.txt` и автоматически установлен в проект в ходе выполнения пункта 3.
@@ -100,23 +106,23 @@ deactivate
 
    **Примечание.** Часть тестов была по умолчанию деактивирована, поскольку их исполнение включает использование лимитированных запросов коммерческого API сервиса DaData. Если есть необходимость активации данных тестов, в модуле `Tests\3_house_test.py` модифицируйте флаг на строке 10 следующим образом
 
-```python
-IS_ACTIVE = True
-```
+   ```python
+   IS_ACTIVE = True
+   ```
 
 8. Сервер ведёт логгирование происходящих действий в файл `history.log`:
 
-```txt
-2024-07-21 21:31:36.361 | INFO     | Routes.Person:post:25 - Insert in Person: Success; ID: 46881
-2024-07-21 21:31:36.372 | INFO     | Routes.Person:put:37 - Update in Person: Success
-2024-07-21 21:31:36.416 | INFO     | Routes.Person:delete:49 - Delete From Person: Success
-2024-07-21 21:31:36.445 | INFO     | Routes.Organization:post:26 - Insert in Organization: Success; ID: 5310
-2024-07-21 21:31:36.455 | INFO     | Routes.Organization:put:38 - Update in Organization: Success
-2024-07-21 21:31:36.651 | INFO     | Routes.Organization:delete:50 - Delete From Organization: Success
-2024-07-21 21:31:36.678 | INFO     | Routes.HouseEquip:post:26 - Insert In HouseEquip: Success; ID: 1432328
-2024-07-21 21:31:36.689 | INFO     | Routes.HouseEquip:put:38 - Update In HouseEquip: Success
-2024-07-21 21:31:36.696 | INFO     | Routes.HouseEquip:delete:50 - Delete From HouseEquip: Success
-```
+   ```txt
+   2024-07-21 21:31:36.361 | INFO     | Routes.Person:post:25 - Insert in Person: Success; ID: 46881
+   2024-07-21 21:31:36.372 | INFO     | Routes.Person:put:37 - Update in Person: Success
+   2024-07-21 21:31:36.416 | INFO     | Routes.Person:delete:49 - Delete From Person: Success
+   2024-07-21 21:31:36.445 | INFO     | Routes.Organization:post:26 - Insert in Organization: Success; ID: 5310
+   2024-07-21 21:31:36.455 | INFO     | Routes.Organization:put:38 - Update in Organization: Success
+   2024-07-21 21:31:36.651 | INFO     | Routes.Organization:delete:50 - Delete From Organization: Success
+   2024-07-21 21:31:36.678 | INFO     | Routes.HouseEquip:post:26 - Insert In HouseEquip: Success; ID: 1432328
+   2024-07-21 21:31:36.689 | INFO     | Routes.HouseEquip:put:38 - Update In HouseEquip: Success
+   2024-07-21 21:31:36.696 | INFO     | Routes.HouseEquip:delete:50 - Delete From HouseEquip: Success
+   ```
 
 Программный код разрабатывался студентами группы ПМИ-12 ФПМИ НГТУ
 
