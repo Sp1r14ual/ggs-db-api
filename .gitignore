@@ -4,3 +4,4 @@ history.log
 .venv
 dadata.json
 .idea
+.env
