@@ -9,7 +9,7 @@ def delete_from_House(**params):
         house = db.query(HouseMD).filter(
             HouseMD.id == params["id_house"]).first()
 
-        if house == None:
+        if not house:
             return "Error: House does not exist"
 
         house_owner = db.query(HouseOwnerMD).filter(

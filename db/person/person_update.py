@@ -7,19 +7,18 @@ def update_in_Person(**params):
 
     with Session(autoflush=False, bind=ENGINE) as db:
 
-        item = db.query(PersonMD).filter(
+        person = db.query(PersonMD).filter(
             PersonMD.id == params["client_id"]).first()
 
-        if (item != None):
-            for key, value in params.items():
-                if key == "client_id":
-                    continue
-                if getattr(item, key) == value:
-                    continue
-                else:
-                    setattr(item, key, value)
-
-            db.commit()
-
-        else:
+        if not person:
             return "Error: Person does not exist"
+
+        for key, value in params.items():
+            if key == "client_id":
+                continue
+            if getattr(person, key) == value:
+                continue
+            else:
+                setattr(person, key, value)
+
+        db.commit()

@@ -26,7 +26,7 @@ def insert_in_House(**params):
                     person = db.query(PersonMD).filter(
                         PersonMD.id == params["id_client"]).first()
 
-                    if person == None:
+                    if not person:
                         return "Error: Client does not exist"
 
                     house_owner_params["id_person"] = value
@@ -35,18 +35,17 @@ def insert_in_House(**params):
                     organization = db.query(OrganizationMD).filter(
                         OrganizationMD.id == params["id_organization"]).first()
 
-                    if organization == None:
+                    if not organization:
                         return "Error: Organization does not exist"
 
                     house_params["id_organization"] = organization.id
 
             else:
-                # house_params[key] = value
                 if key == "town":
                     town = db.query(TownMD).filter(
                         TownMD.name == params["town"]).first()
 
-                    if town == None:
+                    if not town:
                         return "Error: Town does not exist"
 
                     house_params["id_town"] = town.id
@@ -55,7 +54,7 @@ def insert_in_House(**params):
                     district = db.query(DistrictMD).filter(
                         DistrictMD.name == params["district"]).first()
 
-                    if district == None:
+                    if not district:
                         return "Error: District does not exist"
 
                     house_params["id_district"] = district.id
@@ -64,12 +63,13 @@ def insert_in_House(**params):
                     street = db.query(StreetMD).filter(
                         StreetMD.name == params["street"]).first()
 
-                    if street == None:
+                    if not street:
                         return "Error: Street does not exist"
 
                     house_params["id_street"] = street.id
 
         house = HouseMD(**house_params)
+
         db.add(house)
         db.commit()
 
@@ -78,9 +78,9 @@ def insert_in_House(**params):
         except KeyError:
             return house.id
 
-        # print("HOUSE_ID:", house.id)
         house_owner_params["id_house"] = house.id
         house_owner = HouseOwnerMD(**house_owner_params)
+
         db.add(house_owner)
         db.commit()
 

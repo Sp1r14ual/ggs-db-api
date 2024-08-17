@@ -22,7 +22,7 @@ def insert_in_HouseEquip(**params):
                 house = db.query(HouseMD).filter(
                     HouseMD.id == params["id_house"]).first()
 
-                if house == None:
+                if not house:
                     return "Error: House does not exist"
 
                 house_equip_params["id_house"] = house.id
@@ -40,13 +40,13 @@ def insert_in_HouseEquip(**params):
                 person = db.query(PersonMD).filter(
                     PersonMD.id == params["id_client"])
 
-                if person == None:
+                if not person:
                     return "Error: Client does not exist"
 
                 house = db.query(HouseMD).filter(
                     HouseMD.id == params["id_house"]).first()
 
-                if house == None:
+                if not house:
                     return "Error: House does not exist"
 
                 abonent_params["id_person"] = value

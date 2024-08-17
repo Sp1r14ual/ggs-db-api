@@ -41,12 +41,11 @@ class House(MethodView):
 
         if isinstance(result, str) and result.startwith("Error"):
             logger.error(f"Insert In House: {result}")
-            # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
             abort(400, message=result)
 
         logger.info(f"Insert In House: Success; ID: {result}")
 
-        return jsonify({'status_code': 200, 'id_house': result}), 200
+        return jsonify({'id_house': result}), 200
 
     @jwt_required()
     @blp.arguments(EditHouseSchema)
@@ -68,12 +67,11 @@ class House(MethodView):
 
         if isinstance(result, str) and result.startwith("Error"):
             logger.error(f"Update In House: {result}")
-            # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
             abort(400, message=result)
 
         logger.info(f"Update In House: Success")
 
-        return jsonify({'status_code': 200}), 200
+        return jsonify({}), 200
 
     @jwt_required()
     @blp.arguments(DeleteHouseSchema)
@@ -83,9 +81,8 @@ class House(MethodView):
 
         if isinstance(result, str) and result.startswith("Error"):
             logger.error(f"Delete From House: {result}")
-            # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
             abort(400, message=result)
 
         logger.info(f"Delete From House: Success")
 
-        return jsonify({'status_code': 200}), 200
+        return jsonify({}), 200

@@ -13,6 +13,5 @@ class House(Base):
     id_street = Column(Integer, nullable=True)
     house_number = Column(VARCHAR(32), nullable=True)
     corpus_number = Column(VARCHAR(32), nullable=True)
-
     flat_number = Column(VARCHAR(12), nullable=True)
     cadastr_number = Column(VARCHAR(32), nullable=True)

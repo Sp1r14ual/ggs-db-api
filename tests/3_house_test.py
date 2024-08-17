@@ -23,11 +23,9 @@ def test_insert_in_house_for_person():
 
     response_json = response.json()
     ITEM_ID = response_json["id_house"]
-    print("Ответ от сервера:")
-    print(json.dumps(response_json, indent=4))
 
-    assert response_json["id_house"] != None
-    assert response_json["status_code"] == 200
+    assert response_json["id_house"] is not None
+    assert response.status_code == 200, response_json
 
 
 @pytest.mark.skipif(not (IS_ACTIVE and all((DADATA_TOKEN, DADATA_SECRET))), reason="prevent using dadata api")
@@ -38,11 +36,7 @@ def test_update_in_house_for_person():
     response = requests.put(URL, json=data_to_send, headers={
         'Authorization': f'Bearer {AUTH_TOKEN}'})
 
-    response_json = response.json()
-    print("Ответ от сервера:")
-    print(json.dumps(response_json, indent=4))
-
-    assert response_json["status_code"] == 200
+    assert response.status_code == 200, response.json()
 
 
 @pytest.mark.skipif(not (IS_ACTIVE and all((DADATA_TOKEN, DADATA_SECRET))), reason="prevent using dadata api")
@@ -52,11 +46,7 @@ def test_delete_from_house_for_person():
     response = requests.delete(URL, json=data_to_send, headers={
         'Authorization': f'Bearer {AUTH_TOKEN}'})
 
-    response_json = response.json()
-    print("Ответ от сервера:")
-    print(json.dumps(response_json, indent=4))
-
-    assert response_json["status_code"] == 200
+    assert response.status_code == 200, response.json()
 
 
 @pytest.mark.skipif(not (IS_ACTIVE and all((DADATA_TOKEN, DADATA_SECRET))), reason="prevent using dadata api")
@@ -71,11 +61,9 @@ def test_insert_in_house_for_organization():
 
     response_json = response.json()
     ITEM_ID = response_json["id_house"]
-    print("Ответ от сервера:")
-    print(json.dumps(response_json, indent=4))
 
-    assert response_json["id_house"] != None
-    assert response_json["status_code"] == 200
+    assert response_json["id_house"] is not None
+    assert response.status_code == 200, response_json
 
 
 @pytest.mark.skipif(not (IS_ACTIVE and all((DADATA_TOKEN, DADATA_SECRET))), reason="prevent using dadata api")
@@ -86,11 +74,7 @@ def test_update_in_house_for_organization():
     response = requests.put(URL, json=data_to_send, headers={
         'Authorization': f'Bearer {AUTH_TOKEN}'})
 
-    response_json = response.json()
-    print("Ответ от сервера:")
-    print(json.dumps(response_json, indent=4))
-
-    assert response_json["status_code"] == 200
+    assert response.status_code == 200, response.json()
 
 
 @pytest.mark.skipif(not (IS_ACTIVE and all((DADATA_TOKEN, DADATA_SECRET))), reason="prevent using dadata api")
@@ -100,8 +84,4 @@ def test_delete_from_house_for_organization():
     response = requests.delete(URL, json=data_to_send, headers={
         'Authorization': f'Bearer {AUTH_TOKEN}'})
 
-    response_json = response.json()
-    print("Ответ от сервера:")
-    print(json.dumps(response_json, indent=4))
-
-    assert response_json["status_code"] == 200
+    assert response.status_code == 200, response.json()
