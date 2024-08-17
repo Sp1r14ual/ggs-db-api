@@ -15,9 +15,8 @@ def delete_from_House(**params):
         house_owner = db.query(HouseOwnerMD).filter(
             HouseOwnerMD.id_house == params["id_house"]).first()
 
-        if house_owner == None:
-            return "Error: House Owner does not exist"
+        if house_owner != None:
+            db.delete(house_owner)
 
         db.delete(house)
-        db.delete(house_owner)
         db.commit()

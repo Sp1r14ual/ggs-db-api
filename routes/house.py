@@ -81,7 +81,7 @@ class House(MethodView):
     def delete(self, data):
         result = delete_from_House(**data)
 
-        if isinstance(result, str) and result.startwith("Error"):
+        if isinstance(result, str) and result.startswith("Error"):
             logger.error(f"Delete From House: {result}")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
             abort(400, message=result)
