@@ -21,4 +21,4 @@ def update_in_Organization(**params):
             db.commit()
 
         else:
-            return "ERROR"
+            return "Error: Organization does not exist"

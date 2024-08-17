@@ -32,10 +32,11 @@ class Person(MethodView):
     @blp.arguments(EditPersonSchema)
     @blp.response(200, EditDeleteSchema)
     def put(self, data):
-        if update_in_Person(**data) == "ERROR":
-            logger.error("Update In Person: Item doesn't exist")
+        result = update_in_Person(**data)
+        if isinstance(result, str) and result.startswith("Error"):
+            logger.error(f"Update In Person: {result}")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
-            abort(400, message="Error: item doesn't exist")
+            abort(400, message=result)
 
         logger.info(f"Update in Person: Success")
 
@@ -45,10 +46,11 @@ class Person(MethodView):
     @blp.arguments(DeletePersonSchema)
     @blp.response(200, EditDeleteSchema)
     def delete(self, data):
-        if delete_from_Person(**data) == "ERROR":
-            logger.error("Delete From Person: Item doesn't exist")
+        result = delete_from_Person(**data)
+        if isinstance(result, str) and result.startswith("Error"):
+            logger.error(f"Delete From Person: {result}")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
-            abort(400, message="Error: item doesn't exist")
+            abort(400, message=result)
 
         logger.info(f"Delete From Person: Success")
 

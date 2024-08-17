@@ -33,10 +33,11 @@ class Organization(MethodView):
     @blp.arguments(EditOrganizationSchema)
     @blp.response(200, EditDeleteSchema)
     def put(self, data):
-        if update_in_Organization(**data) == "ERROR":
-            logger.error("Update In Organization: Item doesn't exist")
+        result = update_in_Organization(**data)
+        if isinstance(result, str) and result.startswith("Error"):
+            logger.error(f"Update In Organization: {result}")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
-            abort(400, message="Error: item doesn't exist")
+            abort(400, message=result)
 
         logger.info(f"Update in Organization: Success")
 
@@ -46,10 +47,11 @@ class Organization(MethodView):
     @blp.arguments(DeleteOrganizationSchema)
     @blp.response(200, EditDeleteSchema)
     def delete(self, data):
-        if delete_from_Organization(**data) == "ERROR":
-            logger.error("Delete From Organization: Item doesn't exist")
+        result = delete_from_Organization(**data)
+        if isinstance(result, str) and result.startswith("Error"):
+            logger.error(f"Delete From Organization: {result}")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
-            abort(400, message="Error: item doesn't exist")
+            abort(400, message=result)
 
         logger.info(f"Delete From Organization: Success")
 

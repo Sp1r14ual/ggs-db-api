@@ -7,7 +7,9 @@ def delete_from_Person(**params):
     with Session(autoflush=False, bind=ENGINE) as db:
         item = db.query(PersonMD).filter(
             PersonMD.id == params["id_client"]).first()
+
         if item == None:
-            return "ERROR"
+            return "Error: Person does not exist"
+
         db.delete(item)
         db.commit()

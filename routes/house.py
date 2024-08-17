@@ -37,16 +37,16 @@ class House(MethodView):
             parsed_data["flat_number"] = parsed_address["flat"]
 
         # id = insert_in_House(**data)
-        id = insert_in_House(**dict(data, **parsed_data))
+        result = insert_in_House(**dict(data, **parsed_data))
 
-        if id == "ERROR":
-            logger.error("Insert In House: Item doesn't exist")
+        if isinstance(result, str) and result.startwith("Error"):
+            logger.error(f"Insert In House: {result}")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
-            abort(400, message="Error: item doesn't exist")
+            abort(400, message=result)
 
-        logger.info(f"Insert In House: Success; ID: {id}")
+        logger.info(f"Insert In House: Success; ID: {result}")
 
-        return jsonify({'status_code': 200, 'id_house': id}), 200
+        return jsonify({'status_code': 200, 'id_house': result}), 200
 
     @jwt_required()
     @blp.arguments(EditHouseSchema)
@@ -64,10 +64,12 @@ class House(MethodView):
             parsed_data["corpus_number"] = parsed_address["block"]
             parsed_data["flat_number"] = parsed_address["flat"]
 
-        if update_in_House(**dict(data, **parsed_data)) == "ERROR":
-            logger.error("Update In House: Item doesn't exist")
+        result = update_in_House(**dict(data, **parsed_data))
+
+        if isinstance(result, str) and result.startwith("Error"):
+            logger.error(f"Update In House: {result}")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
-            abort(400, message="Error: item doesn't exist")
+            abort(400, message=result)
 
         logger.info(f"Update In House: Success")
 
@@ -77,10 +79,12 @@ class House(MethodView):
     @blp.arguments(DeleteHouseSchema)
     @blp.response(200, EditDeleteSchema)
     def delete(self, data):
-        if delete_from_House(**data) == "ERROR":
-            logger.error("Delete From House: Item doesn't exist")
+        result = delete_from_House(**data)
+
+        if isinstance(result, str) and result.startwith("Error"):
+            logger.error(f"Delete From House: {result}")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
-            abort(400, message="Error: item doesn't exist")
+            abort(400, message=result)
 
         logger.info(f"Delete From House: Success")
 

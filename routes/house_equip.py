@@ -33,10 +33,11 @@ class HouseEquip(MethodView):
     @blp.arguments(EditHouseEquipSchema)
     @blp.response(200, EditDeleteSchema)
     def put(self, data):
-        if update_in_HouseEquip(**data) == "ERROR":
-            logger.error("Update In HouseEquip: Item doesn't exist")
+        result = update_in_HouseEquip(**data)
+        if isinstance(result, str) and result.startswith("Error"):
+            logger.error(f"Update In HouseEquip: {result}")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
-            abort(400, message="Error: item doesn't exist")
+            abort(400, message=result)
 
         logger.info(f"Update In HouseEquip: Success")
 
@@ -46,10 +47,11 @@ class HouseEquip(MethodView):
     @blp.arguments(DeleteHouseEquipSchema)
     @blp.response(200, EditDeleteSchema)
     def delete(self, data):
-        if delete_from_HouseEquip(**data) == "ERROR":
-            logger.error("Delete From HouseEquip: Item doesn't exist")
+        result = delete_from_HouseEquip(**data)
+        if isinstance(result, str) and result.startswith("Error"):
+            logger.error(f"Delete From HouseEquip: {result}")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
-            abort(400, message="Error: item doesn't exist")
+            abort(400, message=result)
 
         logger.info(f"Delete From HouseEquip: Success")
 

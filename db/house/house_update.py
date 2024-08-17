@@ -1,4 +1,5 @@
 from sqlalchemy import and_
+from models.organization_model import Organization as OrganizationMD
 from models.house_model import House as HouseMD
 from models.house_owner_model import HouseOwner as HouseOwnerMD
 from models.town_model import Town as TownMD
@@ -29,7 +30,7 @@ def update_in_House(**params):
                         TownMD.name == params["town"]).first()
 
                     if town == None:
-                        return "ERROR"
+                        return "Error: Town does not exist"
 
                     if house.id_town == town.id:
                         continue
@@ -42,7 +43,7 @@ def update_in_House(**params):
                         DistrictMD.name == params["district"]).first()
 
                     if district == None:
-                        return "ERROR"
+                        return "Error: District does not exist"
 
                     if house.id_district == district.id:
                         continue
@@ -55,7 +56,7 @@ def update_in_House(**params):
                         StreetMD.name == params["street"]).first()
 
                     if street == None:
-                        return "ERROR"
+                        return "Error: Street does not exist"
 
                     if house.id_street == street.id:
                         continue
@@ -63,12 +64,25 @@ def update_in_House(**params):
                         house.id_street = street.id
                         continue
 
+                if key == "id_organization":
+                    organization = db.query(OrganizationMD).filter(
+                        OrganizationMD.id == params["id_organization"]).first()
+
+                    if organization == None:
+                        return "Error: Organization does not exist"
+
                 if key == "is_actual":
+
+                    try:
+                        params["id_client"]
+                    except KeyError:
+                        continue
+
                     house_owner = db.query(HouseOwnerMD).filter(and_(
                         HouseOwnerMD.id_house == params["id_house"], HouseOwnerMD.id_person == params["id_client"])).first()
 
                     if house_owner == None:
-                        return "ERROR"
+                        return "Error: House Owner does not exist"
 
                     if getattr(house_owner, key) == value:
                         continue
@@ -84,4 +98,4 @@ def update_in_House(**params):
             db.commit()
 
         else:
-            return "ERROR"
+            return "Error: House does not exist"

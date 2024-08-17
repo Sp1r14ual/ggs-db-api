@@ -22,4 +22,4 @@ def update_in_Person(**params):
             db.commit()
 
         else:
-            return "ERROR"
+            return "Error: Person does not exist"

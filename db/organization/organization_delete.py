@@ -7,7 +7,9 @@ def delete_from_Organization(**params):
     with Session(autoflush=False, bind=ENGINE) as db:
         item = db.query(OrganizationMD).filter(
             OrganizationMD.id == params["id_organization"]).first()
+
         if item == None:
-            return "ERROR"
+            return "Error: Organization does not exist"
+
         db.delete(item)
         db.commit()

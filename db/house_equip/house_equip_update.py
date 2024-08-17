@@ -24,4 +24,4 @@ def update_in_HouseEquip(**params):
             db.commit()
 
         else:
-            return "ERROR"
+            return "Error: House Equip does noe exist"
