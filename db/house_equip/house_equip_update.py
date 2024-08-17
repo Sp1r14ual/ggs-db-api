@@ -1,4 +1,6 @@
+from models.house_model import House as HouseMD
 from models.house_equip_model import HouseEquip as HouseEquipMD
+from models.type_house_equip_model import TypeHouseEquip as TypeHouseEquipMD
 from sqlalchemy.orm import Session
 from db.engine import ENGINE
 
@@ -6,22 +8,37 @@ from db.engine import ENGINE
 def update_in_HouseEquip(**params):
     with Session(autoflush=False, bind=ENGINE) as db:
 
-        item = db.query(HouseEquipMD).filter(
+        house_equip = db.query(HouseEquipMD).filter(
             HouseEquipMD.id == params["id_house_equip"]).first()
 
-        if (item != None):
-            for key, value in params.items():
-                if key == "id_house_equip":
-                    continue
-                if key == "house_id":
-                    item.id_house = value
-                    continue
-                if getattr(item, key) == value:
-                    continue
-                else:
-                    setattr(item, key, value)
+        if not house_equip:
+            return "Error: House Equip does not exist"
 
-            db.commit()
+        for key, value in params.items():
+            if key == "id_house_equip":
+                continue
+            if key == "id_house":
+                house = db.query(HouseMD).filter(
+                    HouseMD.id == params["id_house"])
 
-        else:
-            return "Error: House Equip does noe exist"
+                if not house:
+                    return "Error: House does not exist"
+
+                # house_equip.id_house = value
+                continue
+
+            if key == "id_type_house_equip":
+                type_house_equip = db.query(TypeHouseEquipMD).filter(
+                    TypeHouseEquipMD.id == params["id_type_house_equip"])
+
+                if not type_house_equip:
+                    return "Error: Type House Equip does not exist"
+
+                # house_equip.id_type_house_equip = value
+
+            if getattr(house_equip, key) == value:
+                continue
+            else:
+                setattr(house_equip, key, value)
+
+        db.commit()

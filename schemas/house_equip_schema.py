@@ -4,7 +4,8 @@ from marshmallow import Schema, fields
 class AddHouseEquipSchema(Schema):
     id_house_equip = fields.Int(dump_only=True)
     status_code = fields.Int(dump_only=True)
-    id_client = fields.Int(required=True)
+    id_client = fields.Int(required=False)
+    id_organization = fields.Int(required=False)
     id_house = fields.Int(required=True)
     id_type_house_equip = fields.Int(required=True)
     year_produce = fields.Int(required=True)
