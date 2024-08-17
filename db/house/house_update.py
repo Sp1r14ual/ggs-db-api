@@ -1,4 +1,5 @@
 from sqlalchemy import and_
+from models.person_model import Person as PersonMD
 from models.organization_model import Organization as OrganizationMD
 from models.house_model import House as HouseMD
 from models.house_owner_model import HouseOwner as HouseOwnerMD
@@ -19,7 +20,7 @@ def update_in_House(**params):
 
         if (house != None):
             for key, value in params.items():
-                if key == "id" or key == "id_house" or key == "id_client":
+                if key == "id_house":  # or key == "id_client" or key == "id_organization":
                     continue
 
                 if key == "adress":
@@ -70,6 +71,23 @@ def update_in_House(**params):
 
                     if organization == None:
                         return "Error: Organization does not exist"
+
+                    continue
+
+                if key == "id_client":
+                    person = db.query(PersonMD).filter(
+                        PersonMD.id == params["id_client"]).first()
+
+                    if person == None:
+                        return "Error: Client does not exist"
+
+                    house_owner = db.query(HouseOwnerMD).filter(and_(
+                        HouseOwnerMD.id_house == params["id_house"], HouseOwnerMD.id_person == params["id_client"])).first()
+
+                    if house_owner == None:
+                        return "Error: House Owner does not exist"
+
+                    continue
 
                 if key == "is_actual":
 

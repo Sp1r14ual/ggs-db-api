@@ -1,4 +1,5 @@
 from models.base_model import Base as BaseMD
+from models.person_model import Person as PersonMD
 from models.organization_model import Organization as OrganizationMD
 from models.house_model import House as HouseMD
 from models.house_owner_model import HouseOwner as HouseOwnerMD
@@ -22,6 +23,12 @@ def insert_in_House(**params):
                 continue
             elif key in ("id_client", "id_organization"):
                 if key == "id_client":
+                    person = db.query(PersonMD).filter(
+                        PersonMD.id == params["id_client"]).first()
+
+                    if person == None:
+                        return "Error: Client does not exist"
+
                     house_owner_params["id_person"] = value
                     house_owner_params["is_actual"] = value
                 else:
