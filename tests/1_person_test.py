@@ -13,18 +13,14 @@ def test_insert_in_person():
     data_to_send = {'family_name': 'Panasenko',
                     'name': 'Sergey', 'birthdate': '20.01.2001', 'phone_number': '89138946221'}
 
-    print(AUTH_TOKEN)
-
     response = requests.post(URL, json=data_to_send, headers={
                              'Authorization': f'Bearer {AUTH_TOKEN}'})
 
     response_json = response.json()
     ITEM_ID = response_json["id_client"]
-    print("Ответ от сервера:")
-    print(json.dumps(response_json, indent=4))
 
-    assert response_json["id_client"] != None
-    assert response_json["status_code"] == 200
+    assert response_json["id_client"] is not None
+    assert response.status_code == 200, response_json
 
 
 def test_update_in_person():
@@ -34,11 +30,7 @@ def test_update_in_person():
     response = requests.put(URL, json=data_to_send, headers={
         'Authorization': f'Bearer {AUTH_TOKEN}'})
 
-    response_json = response.json()
-    print("Ответ от сервера:")
-    print(json.dumps(response_json, indent=4))
-
-    assert response_json["status_code"] == 200
+    assert response.status_code == 200, response.json()
 
 
 def test_delete_from_person():
@@ -47,8 +39,4 @@ def test_delete_from_person():
     response = requests.delete(URL, json=data_to_send, headers={
         'Authorization': f'Bearer {AUTH_TOKEN}'})
 
-    response_json = response.json()
-    print("Ответ от сервера:")
-    print(json.dumps(response_json, indent=4))
-
-    assert response_json["status_code"] == 200
+    assert response.status_code == 200, response.json()

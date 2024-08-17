@@ -9,8 +9,8 @@ def insert_in_Person(**params):
     BaseMD.metadata.create_all(bind=ENGINE)
 
     with Session(autoflush=False, bind=ENGINE) as db:
-        item = PersonMD(**params)
+        person = PersonMD(**params)
 
-        db.add(item)
+        db.add(person)
         db.commit()
-        return item.id
+        return person.id

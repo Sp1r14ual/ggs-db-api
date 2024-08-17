@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import jsonify
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from flask_jwt_extended import jwt_required
@@ -26,30 +26,31 @@ class Person(MethodView):
 
         logger.info(f"Insert in Person: Success; ID: {id}")
 
-        return jsonify({'status_code': 200, 'id_client': id}), 200
+        return jsonify({'id_client': id}), 200
 
     @jwt_required()
     @blp.arguments(EditPersonSchema)
     @blp.response(200, EditDeleteSchema)
     def put(self, data):
-        if update_in_Person(**data) == "ERROR":
-            logger.error("Update In Person: Item doesn't exist")
-            # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
-            abort(400, message="Error: item doesn't exist")
+        result = update_in_Person(**data)
+        if isinstance(result, str) and result.startswith("Error"):
+            logger.error(f"Update In Person: {result}")
+            abort(400, message=result)
 
         logger.info(f"Update in Person: Success")
 
-        return jsonify({'status_code': 200}), 200
+        return jsonify({}), 200
 
     @jwt_required()
     @blp.arguments(DeletePersonSchema)
     @blp.response(200, EditDeleteSchema)
     def delete(self, data):
-        if delete_from_Person(**data) == "ERROR":
-            logger.error("Delete From Person: Item doesn't exist")
+        result = delete_from_Person(**data)
+        if isinstance(result, str) and result.startswith("Error"):
+            logger.error(f"Delete From Person: {result}")
             # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
-            abort(400, message="Error: item doesn't exist")
+            abort(400, message=result)
 
         logger.info(f"Delete From Person: Success")
 
-        return jsonify({'status_code': 200}), 200
+        return jsonify({}), 200

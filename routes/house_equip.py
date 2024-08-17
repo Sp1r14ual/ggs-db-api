@@ -27,30 +27,30 @@ class HouseEquip(MethodView):
 
         logger.info(f"Insert In HouseEquip: Success; ID: {id}")
 
-        return jsonify({'status_code': 200, 'id_house_equip': id}), 200
+        return jsonify({'id_house_equip': id}), 200
 
     @jwt_required()
     @blp.arguments(EditHouseEquipSchema)
     @blp.response(200, EditDeleteSchema)
     def put(self, data):
-        if update_in_HouseEquip(**data) == "ERROR":
-            logger.error("Update In HouseEquip: Item doesn't exist")
-            # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
-            abort(400, message="Error: item doesn't exist")
+        result = update_in_HouseEquip(**data)
+        if isinstance(result, str) and result.startswith("Error"):
+            logger.error(f"Update In HouseEquip: {result}")
+            abort(400, message=result)
 
         logger.info(f"Update In HouseEquip: Success")
 
-        return jsonify({'status_code': 200}), 200
+        return jsonify({}), 200
 
     @jwt_required()
     @blp.arguments(DeleteHouseEquipSchema)
     @blp.response(200, EditDeleteSchema)
     def delete(self, data):
-        if delete_from_HouseEquip(**data) == "ERROR":
-            logger.error("Delete From HouseEquip: Item doesn't exist")
-            # return jsonify({'status_code': 400, 'message': "Error: item doesn't exist"}), 400
-            abort(400, message="Error: item doesn't exist")
+        result = delete_from_HouseEquip(**data)
+        if isinstance(result, str) and result.startswith("Error"):
+            logger.error(f"Delete From HouseEquip: {result}")
+            abort(400, message=result)
 
         logger.info(f"Delete From HouseEquip: Success")
 
-        return jsonify({'status_code': 200}), 200
+        return jsonify({}), 200
