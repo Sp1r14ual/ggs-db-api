@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_smorest import Api
 from flask_jwt_extended import JWTManager
+import datetime
 import settings
 
 from routes.person import blp as person_blueprint
@@ -8,6 +9,7 @@ from routes.organization import blp as organization_blueprint
 from routes.house import blp as house_blueprint
 from routes.house_equip import blp as house_equip_blueprint
 from routes.admin_login import blp as admin_login_blueprint
+from routes.token_refresh import blp as token_refresh_blueprint
 
 app = Flask(__name__)
 
@@ -18,6 +20,8 @@ app.config["OPENAPI_URL_PREFIX"] = "/"
 app.config["OPENAPI_SWAGGER_UI_PATH"] = "/docs"
 app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
 app.config["JWT_SECRET_KEY"] = settings.JWT_SECRET_KEY
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(hours=1)
+app.config['JWT_REFRESH_TOKEN_EXPIRES'] = datetime.timedelta(days=1)
 
 jwt = JWTManager(app)
 
@@ -28,6 +32,7 @@ api.register_blueprint(organization_blueprint)
 api.register_blueprint(house_blueprint)
 api.register_blueprint(house_equip_blueprint)
 api.register_blueprint(admin_login_blueprint)
+api.register_blueprint(token_refresh_blueprint)
 
 if __name__ == '__main__':
     app.run(host=settings.HOST,

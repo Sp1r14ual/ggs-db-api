@@ -19,7 +19,7 @@ class HouseEquip(MethodView):
     def get(self):
         abort(405, message="Method is not allowed")
 
-    @jwt_required()
+    @jwt_required(fresh=True)
     @blp.arguments(AddHouseEquipSchema)
     @blp.response(200, AddSchema)
     def post(self, data):
@@ -29,7 +29,7 @@ class HouseEquip(MethodView):
 
         return jsonify({'status_code': 200, 'id_house_equip': id}), 200
 
-    @jwt_required()
+    @jwt_required(fresh=True)
     @blp.arguments(EditHouseEquipSchema)
     @blp.response(200, EditDeleteSchema)
     def put(self, data):
@@ -42,7 +42,7 @@ class HouseEquip(MethodView):
 
         return jsonify({'status_code': 200}), 200
 
-    @jwt_required()
+    @jwt_required(fresh=True)
     @blp.arguments(DeleteHouseEquipSchema)
     @blp.response(200, EditDeleteSchema)
     def delete(self, data):
