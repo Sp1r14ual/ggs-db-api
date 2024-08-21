@@ -1,4 +1,6 @@
 from sqlalchemy import and_
+from models.person_model import Person as PersonMD
+from models.organization_model import Organization as OrganizationMD
 from models.house_model import House as HouseMD
 from models.house_owner_model import HouseOwner as HouseOwnerMD
 from models.town_model import Town as TownMD
@@ -16,72 +18,101 @@ def update_in_House(**params):
 
         house_owner = None
 
-        if (house != None):
-            for key, value in params.items():
-                if key == "id" or key == "id_house" or key == "id_client":
-                    continue
+        if not house:
+            return "Error: House does not exist"
 
-                if key == "adress":
-                    continue
+        for key, value in params.items():
+            if key == "id_house":
+                continue
 
-                if key == "town":
-                    town = db.query(TownMD).filter(
-                        TownMD.name == params["town"]).first()
+            if key == "adress":
+                continue
 
-                    if town == None:
-                        return "ERROR"
+            if key == "town":
+                town = db.query(TownMD).filter(
+                    TownMD.name == params["town"]).first()
 
-                    if house.id_town == town.id:
-                        continue
-                    else:
-                        house.id_town = town.id
-                        continue
+                if not town:
+                    return "Error: Town does not exist"
 
-                if key == "district":
-                    district = db.query(DistrictMD).filter(
-                        DistrictMD.name == params["district"]).first()
-
-                    if district == None:
-                        return "ERROR"
-
-                    if house.id_district == district.id:
-                        continue
-                    else:
-                        house.id_district = district.id
-                        continue
-
-                if key == "street":
-                    street = db.query(StreetMD).filter(
-                        StreetMD.name == params["street"]).first()
-
-                    if street == None:
-                        return "ERROR"
-
-                    if house.id_street == street.id:
-                        continue
-                    else:
-                        house.id_street = street.id
-                        continue
-
-                if key == "is_actual":
-                    house_owner = db.query(HouseOwnerMD).filter(and_(
-                        HouseOwnerMD.id_house == params["id_house"], HouseOwnerMD.id_person == params["id_client"])).first()
-
-                    if house_owner == None:
-                        return "ERROR"
-
-                    if getattr(house_owner, key) == value:
-                        continue
-                    else:
-                        setattr(house_owner, key, value)
-                        continue
-
-                if getattr(house, key) == value:
+                if house.id_town == town.id:
                     continue
                 else:
-                    setattr(house, key, value)
+                    house.id_town = town.id
+                    continue
 
-            db.commit()
+            if key == "district":
+                district = db.query(DistrictMD).filter(
+                    DistrictMD.name == params["district"]).first()
 
-        else:
-            return "ERROR"
+                if not district:
+                    return "Error: District does not exist"
+
+                if house.id_district == district.id:
+                    continue
+                else:
+                    house.id_district = district.id
+                    continue
+
+            if key == "street":
+                street = db.query(StreetMD).filter(
+                    StreetMD.name == params["street"]).first()
+
+                if not street:
+                    return "Error: Street does not exist"
+
+                if house.id_street == street.id:
+                    continue
+                else:
+                    house.id_street = street.id
+                    continue
+
+            if key == "id_organization":
+                organization = db.query(OrganizationMD).filter(
+                    OrganizationMD.id == params["id_organization"]).first()
+
+                if not organization:
+                    return "Error: Organization does not exist"
+
+                continue
+
+            if key == "id_client":
+                person = db.query(PersonMD).filter(
+                    PersonMD.id == params["id_client"]).first()
+
+                if not person:
+                    return "Error: Client does not exist"
+
+                house_owner = db.query(HouseOwnerMD).filter(and_(
+                    HouseOwnerMD.id_house == params["id_house"], HouseOwnerMD.id_person == params["id_client"])).first()
+
+                if not house_owner:
+                    return "Error: House Owner does not exist"
+
+                continue
+
+            if key == "is_actual":
+
+                try:
+                    params["id_client"]
+                except KeyError:
+                    continue
+
+                house_owner = db.query(HouseOwnerMD).filter(and_(
+                    HouseOwnerMD.id_house == params["id_house"], HouseOwnerMD.id_person == params["id_client"])).first()
+
+                if not house_owner:
+                    return "Error: House Owner does not exist"
+
+                if getattr(house_owner, key) == value:
+                    continue
+                else:
+                    setattr(house_owner, key, value)
+                    continue
+
+            if getattr(house, key) == value:
+                continue
+            else:
+                setattr(house, key, value)
+
+        db.commit()

@@ -5,9 +5,11 @@ from db.engine import ENGINE
 
 def delete_from_Person(**params):
     with Session(autoflush=False, bind=ENGINE) as db:
-        item = db.query(PersonMD).filter(
+        person = db.query(PersonMD).filter(
             PersonMD.id == params["id_client"]).first()
-        if item == None:
-            return "ERROR"
-        db.delete(item)
+
+        if not person:
+            return "Error: Person does not exist"
+
+        db.delete(person)
         db.commit()

@@ -9,8 +9,8 @@ def insert_in_Organization(**params):
     BaseMD.metadata.create_all(bind=ENGINE)
 
     with Session(autoflush=False, bind=ENGINE) as db:
-        item = OrganizationMD(**params)
+        organization = OrganizationMD(**params)
 
-        db.add(item)
+        db.add(organization)
         db.commit()
-        return item.id
+        return organization.id

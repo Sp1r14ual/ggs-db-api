@@ -7,18 +7,11 @@ class House(Base):
     __table_args__ = {'implicit_returning': False}
 
     id = Column(Integer, primary_key=True, nullable=False)
-
-    # В БД nullable, а в мануале обязательный, как быть? Нужен default_value?
-    # + сопоставить вторичный ключ с другой таблицей
+    id_organization = Column(Integer, nullable=True)
     id_town = Column(Integer, nullable=True)
-
-    # NULL/Не NULL + вторичный ключ
     id_district = Column(Integer, nullable=True)
-
-    id_street = Column(Integer, nullable=True)  # NULL/Не NULL + вторичный ключ
-    house_number = Column(VARCHAR(32), nullable=True)  # NULL/Не NULL
-    corpus_number = Column(VARCHAR(32), nullable=True)  # NULL/Не NULL
-
+    id_street = Column(Integer, nullable=True)
+    house_number = Column(VARCHAR(32), nullable=True)
+    corpus_number = Column(VARCHAR(32), nullable=True)
     flat_number = Column(VARCHAR(12), nullable=True)
     cadastr_number = Column(VARCHAR(32), nullable=True)
-    # Что делать с остальными полями?
