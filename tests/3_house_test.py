@@ -25,7 +25,7 @@ def test_insert_in_house_for_person():
     ITEM_ID = response_json["id_house"]
 
     assert response_json["id_house"] is not None
-    assert response.status_code == 200, response_json
+    assert response.status_code == 201, response_json
 
 
 @pytest.mark.skipif(not (IS_ACTIVE and all((DADATA_TOKEN, DADATA_SECRET))), reason="prevent using dadata api")
@@ -63,7 +63,7 @@ def test_insert_in_house_for_organization():
     ITEM_ID = response_json["id_house"]
 
     assert response_json["id_house"] is not None
-    assert response.status_code == 200, response_json
+    assert response.status_code == 201, response_json
 
 
 @pytest.mark.skipif(not (IS_ACTIVE and all((DADATA_TOKEN, DADATA_SECRET))), reason="prevent using dadata api")

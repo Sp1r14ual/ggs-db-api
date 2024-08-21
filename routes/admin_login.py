@@ -1,7 +1,7 @@
 from flask import jsonify
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, create_refresh_token
 from schemas.admin_schema import AdminSchema
 from auth.admin_auth import authenticate
 
@@ -23,9 +23,10 @@ class AdminLogin(MethodView):
             logger.error("Authentication Failed")
             abort(401, message="Invalid credentials.")
 
-        access_token = create_access_token(identity=data["login"])
+        access_token = create_access_token(identity=data["login"], fresh=True)
+        refresh_token = create_refresh_token(identity=data["login"])
         logger.info(f"Successful Authentification: Login {data["login"]}")
-        return jsonify({"access_token": access_token}), 200
+        return jsonify({"access_token": access_token, "refresh_token": refresh_token}), 200
 
     @blp.response(405)
     def put(self):

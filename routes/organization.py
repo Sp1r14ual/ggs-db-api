@@ -19,17 +19,17 @@ class Organization(MethodView):
     def get(self):
         abort(405, message="Method is not allowed")
 
-    @jwt_required()
+    @jwt_required(fresh=True)
     @blp.arguments(AddOrganizationSchema)
-    @blp.response(200, AddSchema)
+    @blp.response(201, AddSchema)
     def post(self, data):
         id = insert_in_Organization(**data)
 
         logger.info(f"Insert in Organization: Success; ID: {id}")
 
-        return jsonify({'id_organization': id}), 200
+        return jsonify({'id_organization': id}), 201
 
-    @jwt_required()
+    @jwt_required(fresh=True)
     @blp.arguments(EditOrganizationSchema)
     @blp.response(200, EditDeleteSchema)
     def put(self, data):
@@ -42,7 +42,7 @@ class Organization(MethodView):
 
         return jsonify({}), 200
 
-    @jwt_required()
+    @jwt_required(fresh=True)
     @blp.arguments(DeleteOrganizationSchema)
     @blp.response(200, EditDeleteSchema)
     def delete(self, data):

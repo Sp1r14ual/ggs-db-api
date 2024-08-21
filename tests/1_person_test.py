@@ -20,7 +20,7 @@ def test_insert_in_person():
     ITEM_ID = response_json["id_client"]
 
     assert response_json["id_client"] is not None
-    assert response.status_code == 200, response_json
+    assert response.status_code == 201, response_json
 
 
 def test_update_in_person():

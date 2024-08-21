@@ -20,9 +20,9 @@ class House(MethodView):
     def get(self):
         abort(405, message="Method is not allowed")
 
-    @jwt_required()
+    @jwt_required(fresh=True)
     @blp.arguments(AddHouseSchema)
-    @blp.response(200, AddSchema)
+    @blp.response(201, AddSchema)
     def post(self, data):
         global parsed_data
         parsed_data = dict()
@@ -45,9 +45,9 @@ class House(MethodView):
 
         logger.info(f"Insert In House: Success; ID: {result}")
 
-        return jsonify({'id_house': result}), 200
+        return jsonify({'id_house': result}), 201
 
-    @jwt_required()
+    @jwt_required(fresh=True)
     @blp.arguments(EditHouseSchema)
     @blp.response(200, EditDeleteSchema)
     def put(self, data):
@@ -73,7 +73,7 @@ class House(MethodView):
 
         return jsonify({}), 200
 
-    @jwt_required()
+    @jwt_required(fresh=True)
     @blp.arguments(DeleteHouseSchema)
     @blp.response(200, EditDeleteSchema)
     def delete(self, data):

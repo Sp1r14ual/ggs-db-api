@@ -23,7 +23,7 @@ def test_insert_in_house_equip_for_person():
     ITEM_ID = response_json["id_house_equip"]
 
     assert response_json["id_house_equip"] is not None
-    assert response.status_code == 200, response_json
+    assert response.status_code == 201, response_json
 
 
 def test_update_in_house_equip_for_person():
@@ -58,7 +58,7 @@ def test_insert_in_house_equip_for_organization():
     ITEM_ID = response_json["id_house_equip"]
 
     assert response_json["id_house_equip"] is not None
-    assert response.status_code == 200, response_json
+    assert response.status_code == 201, response_json
 
 
 def test_update_in_house_equip_for_organization():
