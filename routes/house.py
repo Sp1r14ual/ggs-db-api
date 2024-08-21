@@ -22,7 +22,7 @@ class House(MethodView):
 
     @jwt_required(fresh=True)
     @blp.arguments(AddHouseSchema)
-    @blp.response(200, AddSchema)
+    @blp.response(201, AddSchema)
     def post(self, data):
         global parsed_data
         parsed_data = dict()
@@ -45,7 +45,7 @@ class House(MethodView):
 
         logger.info(f"Insert In House: Success; ID: {result}")
 
-        return jsonify({'id_house': result}), 200
+        return jsonify({'id_house': result}), 201
 
     @jwt_required(fresh=True)
     @blp.arguments(EditHouseSchema)

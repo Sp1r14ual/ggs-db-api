@@ -21,13 +21,13 @@ class Organization(MethodView):
 
     @jwt_required(fresh=True)
     @blp.arguments(AddOrganizationSchema)
-    @blp.response(200, AddSchema)
+    @blp.response(201, AddSchema)
     def post(self, data):
         id = insert_in_Organization(**data)
 
         logger.info(f"Insert in Organization: Success; ID: {id}")
 
-        return jsonify({'id_organization': id}), 200
+        return jsonify({'id_organization': id}), 201
 
     @jwt_required(fresh=True)
     @blp.arguments(EditOrganizationSchema)

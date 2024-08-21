@@ -22,7 +22,7 @@ def test_insert_in_organization():
     ITEM_ID = response_json["id_organization"]
 
     assert response_json["id_organization"] is not None
-    assert response.status_code == 200
+    assert response.status_code == 201
 
 
 def test_update_in_organization():

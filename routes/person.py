@@ -15,19 +15,19 @@ blp = Blueprint("Person", __name__, description="CRUD Operations on Person")
 @blp.route("/person")
 class Person(MethodView):
     @blp.response(405)
-    @jwt_required()
+    @jwt_required(fresh=True)
     def get(self):
         abort(405, message="Method is not allowed")
 
     @jwt_required(fresh=True)
     @blp.arguments(AddPersonSchema)
-    @blp.response(200, AddSchema)
+    @blp.response(201, AddSchema)
     def post(self, data):
         id = insert_in_Person(**data)
 
         logger.info(f"Insert in Person: Success; ID: {id}")
 
-        return jsonify({'id_client': id}), 200
+        return jsonify({'id_client': id}), 201
 
     @jwt_required(fresh=True)
     @blp.arguments(EditPersonSchema)

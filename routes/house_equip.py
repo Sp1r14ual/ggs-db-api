@@ -21,13 +21,13 @@ class HouseEquip(MethodView):
 
     @jwt_required(fresh=True)
     @blp.arguments(AddHouseEquipSchema)
-    @blp.response(200, AddSchema)
+    @blp.response(201, AddSchema)
     def post(self, data):
         id = insert_in_HouseEquip(**data)
 
         logger.info(f"Insert In HouseEquip: Success; ID: {id}")
 
-        return jsonify({'id_house_equip': id}), 200
+        return jsonify({'id_house_equip': id}), 201
 
     @jwt_required(fresh=True)
     @blp.arguments(EditHouseEquipSchema)
