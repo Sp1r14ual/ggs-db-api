@@ -36,10 +36,12 @@ class House(MethodView):
             parsed_data["corpus_number"] = parsed_address["block"]
             parsed_data["flat_number"] = parsed_address["flat"]
 
+        print(parsed_data)
+
         # id = insert_in_House(**data)
         result = insert_in_House(**dict(data, **parsed_data))
 
-        if isinstance(result, str) and result.startwith("Error"):
+        if isinstance(result, str) and result.startswith("Error"):
             logger.error(f"Insert In House: {result}")
             abort(400, message=result)
 
@@ -63,9 +65,11 @@ class House(MethodView):
             parsed_data["corpus_number"] = parsed_address["block"]
             parsed_data["flat_number"] = parsed_address["flat"]
 
+        print(parsed_data)
+
         result = update_in_House(**dict(data, **parsed_data))
 
-        if isinstance(result, str) and result.startwith("Error"):
+        if isinstance(result, str) and result.startswith("Error"):
             logger.error(f"Update In House: {result}")
             abort(400, message=result)
 
