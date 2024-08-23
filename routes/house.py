@@ -36,7 +36,9 @@ class House(MethodView):
             parsed_data["corpus_number"] = parsed_address["block"]
             parsed_data["flat_number"] = parsed_address["flat"]
 
-        print(parsed_data)
+        if None in parsed_data.values():
+            abort(400,
+                  message=f"Error: Some fields are None: {[key for key in parsed_data.keys() if not parsed_data[key]]}")
 
         # id = insert_in_House(**data)
         result = insert_in_House(**dict(data, **parsed_data))
@@ -65,7 +67,9 @@ class House(MethodView):
             parsed_data["corpus_number"] = parsed_address["block"]
             parsed_data["flat_number"] = parsed_address["flat"]
 
-        print(parsed_data)
+        if None in parsed_data.values():
+            abort(400,
+                  message=f"Error: Some fields are None: {[key for key in parsed_data.keys() if not parsed_data[key]]}")
 
         result = update_in_House(**dict(data, **parsed_data))
 
