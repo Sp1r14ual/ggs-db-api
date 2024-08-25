@@ -3,7 +3,7 @@ from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from flask_jwt_extended import jwt_required
 from dadata import Dadata
-from settings import DADATA_TOKEN, DADATA_SECRET
+from settings import settings
 from db.house.house_insert import insert_in_House
 from db.house.house_update import update_in_House
 from db.house.house_delete import delete_from_House
@@ -27,7 +27,7 @@ class House(MethodView):
         global parsed_data
         parsed_data = dict()
 
-        with Dadata(DADATA_TOKEN, DADATA_SECRET) as dd:
+        with Dadata(settings.DADATA_TOKEN, settings.DADATA_SECRET) as dd:
             parsed_address = dd.clean("address", data["adress"])
             parsed_data["town"] = parsed_address["city"]
             parsed_data["district"] = parsed_address["city_district"]
@@ -58,7 +58,7 @@ class House(MethodView):
         global parsed_data
         parsed_data = dict()
 
-        with Dadata(DADATA_TOKEN, DADATA_SECRET) as dd:
+        with Dadata(settings.DADATA_TOKEN, settings.DADATA_SECRET) as dd:
             parsed_address = dd.clean("address", data["adress"])
             parsed_data["town"] = parsed_address["city"]
             parsed_data["district"] = parsed_address["city_district"]

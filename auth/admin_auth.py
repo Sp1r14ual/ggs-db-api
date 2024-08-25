@@ -1,6 +1,8 @@
 from models.admin_model import Admin as AdminMD
 from sqlalchemy.orm import Session
-from db.engine import ENGINE
+from settings import settings
+
+ENGINE = settings.ENGINE
 
 
 def authenticate(username: str) -> bool:

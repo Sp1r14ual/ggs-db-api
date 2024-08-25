@@ -9,3 +9,5 @@ pytest
 requests
 py-mon
 loguru
+pydantic
+pydantic-settings

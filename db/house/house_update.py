@@ -7,7 +7,9 @@ from models.town_model import Town as TownMD
 from models.disctrict_model import District as DistrictMD
 from models.street_model import Street as StreetMD
 from sqlalchemy.orm import Session
-from db.engine import ENGINE
+from settings import settings
+
+ENGINE = settings.ENGINE
 
 
 def update_in_House(**params):

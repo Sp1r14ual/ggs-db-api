@@ -2,7 +2,9 @@ from models.house_equip_model import HouseEquip as HouseEquipMD
 from models.abonent_model import Abonent as AbonentMD
 from sqlalchemy.orm import Session
 from sqlalchemy import and_
-from db.engine import ENGINE
+from settings import settings
+
+ENGINE = settings.ENGINE
 
 
 def delete_from_HouseEquip(**params):
