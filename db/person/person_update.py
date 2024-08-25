@@ -1,6 +1,8 @@
 from models.person_model import Person as PersonMD
 from sqlalchemy.orm import Session
-from db.engine import ENGINE
+from settings import settings
+
+ENGINE = settings.ENGINE
 
 
 def update_in_Person(**params):

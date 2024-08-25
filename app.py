@@ -2,7 +2,7 @@ from flask import Flask
 from flask_smorest import Api
 from flask_jwt_extended import JWTManager
 import datetime
-import settings
+from settings import settings
 
 from routes.person import blp as person_blueprint
 from routes.organization import blp as organization_blueprint

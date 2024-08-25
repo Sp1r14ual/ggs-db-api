@@ -1,6 +1,8 @@
 from models.organization_model import Organization as OrganizationMD
 from sqlalchemy.orm import Session
-from db.engine import ENGINE
+from settings import settings
+
+ENGINE = settings.ENGINE
 
 
 def delete_from_Organization(**params):

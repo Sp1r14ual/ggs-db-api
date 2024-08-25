@@ -1,17 +1,17 @@
 import requests
 import json
 import pytest
-from settings import DADATA_TOKEN, DADATA_SECRET
+from settings import settings
 from get_auth_token import get_auth_token
 
 URL = 'http://127.0.0.1:5000/house'
 ITEM_ID = None
 AUTH_TOKEN = get_auth_token()
 
-IS_ACTIVE = False
+IS_ACTIVE = True
 
 
-@pytest.mark.skipif(not (IS_ACTIVE and all((DADATA_TOKEN, DADATA_SECRET))), reason="prevent using dadata api")
+@pytest.mark.skipif(not (IS_ACTIVE and all((settings.DADATA_TOKEN, settings.DADATA_SECRET))), reason="prevent using dadata api")
 def test_insert_in_house_for_person():
     global ITEM_ID
 
@@ -28,7 +28,7 @@ def test_insert_in_house_for_person():
     assert response.status_code == 201, response_json
 
 
-@pytest.mark.skipif(not (IS_ACTIVE and all((DADATA_TOKEN, DADATA_SECRET))), reason="prevent using dadata api")
+@pytest.mark.skipif(not (IS_ACTIVE and all((settings.DADATA_TOKEN, settings.DADATA_SECRET))), reason="prevent using dadata api")
 def test_update_in_house_for_person():
     data_to_send = {'id_house': ITEM_ID, 'adress': '640978, Новосибирск, ул. Ватутина 12б к69 кв 88',
                     'cadastr_number': '123223223', 'id_client': 46831, 'is_actual': 1}
@@ -39,7 +39,7 @@ def test_update_in_house_for_person():
     assert response.status_code == 200, response.json()
 
 
-@pytest.mark.skipif(not (IS_ACTIVE and all((DADATA_TOKEN, DADATA_SECRET))), reason="prevent using dadata api")
+@pytest.mark.skipif(not (IS_ACTIVE and all((settings.DADATA_TOKEN, settings.DADATA_SECRET))), reason="prevent using dadata api")
 def test_delete_from_house_for_person():
     data_to_send = {'id_house': ITEM_ID}
 
@@ -49,7 +49,7 @@ def test_delete_from_house_for_person():
     assert response.status_code == 200, response.json()
 
 
-@pytest.mark.skipif(not (IS_ACTIVE and all((DADATA_TOKEN, DADATA_SECRET))), reason="prevent using dadata api")
+@pytest.mark.skipif(not (IS_ACTIVE and all((settings.DADATA_TOKEN, settings.DADATA_SECRET))), reason="prevent using dadata api")
 def test_insert_in_house_for_organization():
     global ITEM_ID
 
@@ -66,7 +66,7 @@ def test_insert_in_house_for_organization():
     assert response.status_code == 201, response_json
 
 
-@pytest.mark.skipif(not (IS_ACTIVE and all((DADATA_TOKEN, DADATA_SECRET))), reason="prevent using dadata api")
+@pytest.mark.skipif(not (IS_ACTIVE and all((settings.DADATA_TOKEN, settings.DADATA_SECRET))), reason="prevent using dadata api")
 def test_update_in_house_for_organization():
     data_to_send = {'id_house': ITEM_ID, 'adress': '640978, Новосибирск, ул. Ватутина 12б к69 кв 88',
                     'cadastr_number': '123223223', 'id_organization': 3826, 'is_actual': 1}
@@ -77,7 +77,7 @@ def test_update_in_house_for_organization():
     assert response.status_code == 200, response.json()
 
 
-@pytest.mark.skipif(not (IS_ACTIVE and all((DADATA_TOKEN, DADATA_SECRET))), reason="prevent using dadata api")
+@pytest.mark.skipif(not (IS_ACTIVE and all((settings.DADATA_TOKEN, settings.DADATA_SECRET))), reason="prevent using dadata api")
 def test_delete_from_house_for_organization():
     data_to_send = {'id_house': ITEM_ID}
 

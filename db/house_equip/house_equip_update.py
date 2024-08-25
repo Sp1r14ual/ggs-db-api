@@ -2,7 +2,9 @@ from models.house_model import House as HouseMD
 from models.house_equip_model import HouseEquip as HouseEquipMD
 from models.type_house_equip_model import TypeHouseEquip as TypeHouseEquipMD
 from sqlalchemy.orm import Session
-from db.engine import ENGINE
+from settings import settings
+
+ENGINE = settings.ENGINE
 
 
 def update_in_HouseEquip(**params):
