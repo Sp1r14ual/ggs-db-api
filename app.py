@@ -10,6 +10,8 @@ from routes.house import blp as house_blueprint
 from routes.house_equip import blp as house_equip_blueprint
 from routes.admin_login import blp as admin_login_blueprint
 from routes.token_refresh import blp as token_refresh_blueprint
+from routes.get_all_people import blp as get_all_people_blueprint
+from routes.get_all_organizations import blp as get_all_organizations_blueprint
 
 app = Flask(__name__)
 
@@ -33,6 +35,8 @@ api.register_blueprint(house_blueprint)
 api.register_blueprint(house_equip_blueprint)
 api.register_blueprint(admin_login_blueprint)
 api.register_blueprint(token_refresh_blueprint)
+api.register_blueprint(get_all_people_blueprint)
+api.register_blueprint(get_all_organizations_blueprint)
 
 if __name__ == '__main__':
     app.run(host=settings.HOST,
