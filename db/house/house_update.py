@@ -4,7 +4,7 @@ from models.organization_model import Organization as OrganizationMD
 from models.house_model import House as HouseMD
 from models.house_owner_model import HouseOwner as HouseOwnerMD
 from models.town_model import Town as TownMD
-from models.disctrict_model import District as DistrictMD
+from models.district_model import District as DistrictMD
 from models.street_model import Street as StreetMD
 from sqlalchemy.orm import Session
 from settings import settings
