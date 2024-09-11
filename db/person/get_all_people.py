@@ -11,19 +11,21 @@ def select_all_from_person():
     with Session(autoflush=False, bind=ENGINE) as db:
 
         people = db.query(PersonMD).all()
+        # people = [people[i]
+        #           for i in range(len(people) - 1, len(people) - 100, -1)]
 
         if not people:
             return "Error: Person table is empty"
 
         result = [{
             "family_name": person.family_name,
-            "birthdate": person.birthdate,
+            "birthdate": person.birthdate.strftime("%d.%m.%Y"),
             "phone_number": person.phone_number,
             "name": person.name,
             "patronimic_name": person.patronimic_name,
             "pasport_serial": person.pasport_serial,
-            "pasport_number": person.pasport_date,
-            "pasport_date": person.pasport_date,
+            "pasport_number": person.pasport_number,
+            "pasport_date": person.pasport_date.strftime("%d.%m.%Y"),
             "pasport_place": person.pasport_place,
             "remark": person.remark,
             "dep_code": person.dep_code,

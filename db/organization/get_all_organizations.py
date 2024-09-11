@@ -11,9 +11,11 @@ def select_all_from_organization():
     with Session(autoflush=False, bind=ENGINE) as db:
 
         organizations = db.query(OrganizationMD).all()
+        # organizations = [organizations[i] for i in range(
+        #     len(organizations) - 1, len(organizations) - 100, -1)]
 
         if not organizations:
-            return "Error: Person table is empty"
+            return "Error: Organization table is empty"
 
         result = [{
             "name": organization.name,
