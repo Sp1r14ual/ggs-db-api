@@ -13,7 +13,7 @@ def select_all_from_organization():
         organizations = db.query(OrganizationMD).all()
 
         if not organizations:
-            return "Error: Person table is empty"
+            return "Error: Organization table is empty"
 
         result = [{
             "name": organization.name,
