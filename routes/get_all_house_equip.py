@@ -36,5 +36,5 @@ class GetAllHouseEquip(MethodView):
 
     @blp.response(405)
     @jwt_required(fresh=True)
-    def put(self, data):
+    def delete(self, data):
         abort(405, message="Method is not allowed")
