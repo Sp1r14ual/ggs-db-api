@@ -59,13 +59,14 @@ def select_all_from_house():
             cadastr_number = house.cadastr_number
 
             data = {
+                "adress": f"{town}, район {district}, улица {street}, дом {house_number}, корпус {corpus_number}, квартира {flat_number}",
                 "id_organization": id_organization,
-                "town": town,
-                "district": district,
-                "street": street,
-                "house_number": house_number,
-                "corpus_number": corpus_number,
-                "flat_number": flat_number,
+                # "town": town,
+                # "district": district,
+                # "street": street,
+                # "house_number": house_number,
+                # "corpus_number": corpus_number,
+                # "flat_number": flat_number,
                 "cadastr_number": cadastr_number,
                 "id_client": id_client,
                 "is_actual": is_actual
