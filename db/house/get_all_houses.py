@@ -29,19 +29,19 @@ def select_all_from_house():
                 town = db.query(TownMD).filter(
                     house.id_town == TownMD.id).first().name
             except AttributeError:
-                town = "null"
+                town = None
 
             try:
                 district = db.query(DistrictMD).filter(
                     house.id_district == DistrictMD.id).first().name
             except AttributeError:
-                district = "null"
+                district = None
 
             try:
                 street = db.query(StreetMD).filter(
                     house.id_street == StreetMD.id).first().name
             except AttributeError:
-                street = "null"
+                street = None
 
             try:
                 id_client = db.query(HouseOwnerMD).filter(
@@ -49,17 +49,18 @@ def select_all_from_house():
                 is_actual = db.query(HouseOwnerMD).filter(
                     HouseOwnerMD.id_house == house.id).first().is_actual
             except AttributeError:
-                id_client = "null"
-                is_actual = "null"
+                id_client = None
+                is_actual = house.is_actual
 
             id_organization = house.id_organization
             house_number = house.house_number
             corpus_number = house.corpus_number
             flat_number = house.flat_number
             cadastr_number = house.cadastr_number
+            postal_index = house.postal_index
 
             data = {
-                "adress": f"{town}, район {district}, улица {street}, дом {house_number}, корпус {corpus_number}, квартира {flat_number}",
+                "adress": f"почтовый индекс {postal_index}, город {town}, район {district}, улица {street}, дом {house_number}, корпус {corpus_number}, квартира {flat_number}",
                 "id_organization": id_organization,
                 # "town": town,
                 # "district": district,

@@ -98,6 +98,7 @@ def update_in_House(**params):
                 try:
                     params["id_client"]
                 except KeyError:
+                    house.is_actual = params["is_actual"]
                     continue
 
                 house_owner = db.query(HouseOwnerMD).filter(and_(

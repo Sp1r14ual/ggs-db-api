@@ -35,6 +35,7 @@ class House(MethodView):
             parsed_data["house_number"] = parsed_address["house"]
             parsed_data["corpus_number"] = parsed_address["block"]
             parsed_data["flat_number"] = parsed_address["flat"]
+            parsed_data["postal_index"] = parsed_address["postal_code"]
 
         if None in parsed_data.values():
             abort(400,

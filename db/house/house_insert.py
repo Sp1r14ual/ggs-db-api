@@ -32,7 +32,9 @@ def insert_in_House(**params):
                         return "Error: Client does not exist"
 
                     house_owner_params["id_person"] = value
-                    house_owner_params["is_actual"] = value
+                    house_owner_params["is_actual"] = params["is_actual"]
+
+                    continue
                 else:
                     organization = db.query(OrganizationMD).filter(
                         OrganizationMD.id == params["id_organization"]).first()
@@ -41,6 +43,9 @@ def insert_in_House(**params):
                         return "Error: Organization does not exist"
 
                     house_params["id_organization"] = organization.id
+                    house_params["is_actual"] = params["is_actual"]
+
+                    continue
 
             else:
                 if key == "town":
@@ -52,6 +57,8 @@ def insert_in_House(**params):
 
                     house_params["id_town"] = town.id
 
+                    continue
+
                 if key == "district":
                     district = db.query(DistrictMD).filter(
                         DistrictMD.name == params["district"]).first()
@@ -61,6 +68,8 @@ def insert_in_House(**params):
 
                     house_params["id_district"] = district.id
 
+                    continue
+
                 if key == "street":
                     street = db.query(StreetMD).filter(
                         StreetMD.name == params["street"]).first()
@@ -69,6 +78,15 @@ def insert_in_House(**params):
                         return "Error: Street does not exist"
 
                     house_params["id_street"] = street.id
+
+                    continue
+
+                if key == "postal_index":
+                    house_params["postal_index"] = params["postal_index"]
+
+                    continue
+
+            house_params[key] = value
 
         house = HouseMD(**house_params)
 
