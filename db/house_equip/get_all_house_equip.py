@@ -25,13 +25,13 @@ def select_all_from_house_equip():
                 id_client = db.query(AbonentMD).filter(
                     item.id_abonent == AbonentMD.id).first().id_person
             except AttributeError:
-                id_client = "null"
+                id_client = None
 
             try:
                 id_organization = db.query(AbonentMD).filter(
                     item.id_abonent == AbonentMD.id).first().id_organization
             except AttributeError:
-                id_organization = "null"
+                id_organization = None
 
             id_house = item.id_house
             id_type_house_equip = item.id_type_house_equip

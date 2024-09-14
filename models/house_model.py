@@ -15,3 +15,5 @@ class House(Base):
     corpus_number = Column(VARCHAR(32), nullable=True)
     flat_number = Column(VARCHAR(12), nullable=True)
     cadastr_number = Column(VARCHAR(32), nullable=True)
+    postal_index = Column(VARCHAR(6), nullable=True)
+    is_actual = Column(Integer, nullable=True)
