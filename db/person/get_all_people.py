@@ -19,13 +19,13 @@ def select_all_from_person():
 
         result = [{
             "family_name": person.family_name,
-            "birthdate": person.birthdate.strftime("%d.%m.%Y"),
+            "birthdate": None if not person.birthdate else person.birthdate.strftime("%d.%m.%Y"),
             "phone_number": person.phone_number,
             "name": person.name,
             "patronimic_name": person.patronimic_name,
             "pasport_serial": person.pasport_serial,
             "pasport_number": person.pasport_number,
-            "pasport_date": person.pasport_date.strftime("%d.%m.%Y"),
+            "pasport_date": None if not person.pasport_date else person.pasport_date.strftime("%d.%m.%Y"),
             "pasport_place": person.pasport_place,
             "remark": person.remark,
             "dep_code": person.dep_code,
