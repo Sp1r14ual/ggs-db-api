@@ -2,7 +2,8 @@ from flask import jsonify, abort
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from flask_jwt_extended import jwt_required
-from db.house.get_all_houses import select_all_from_house
+from db.house.get_all_houses import select_all_from_house_by_id
+from schemas.get_all_houses_schema import GetAllHousesSchema
 from logger import logger
 
 blp = Blueprint("Get All Houses", __name__,
@@ -11,10 +12,11 @@ blp = Blueprint("Get All Houses", __name__,
 
 @blp.route("/get_all_houses")
 class GetAllHouses(MethodView):
-    @blp.response(200)
     @jwt_required(fresh=True)
-    def get(self):
-        result = select_all_from_house()
+    @blp.arguments(GetAllHousesSchema)
+    @blp.response(200)
+    def post(self, data):
+        result = select_all_from_house_by_id(**data)
 
         if isinstance(result, str) and result.startswith("Error"):
             logger.error(f"Select From House: {result}")
@@ -26,7 +28,7 @@ class GetAllHouses(MethodView):
 
     @blp.response(405)
     @jwt_required(fresh=True)
-    def post(self, data):
+    def get(self):
         abort(405, message="Method is not allowed")
 
     @blp.response(405)
