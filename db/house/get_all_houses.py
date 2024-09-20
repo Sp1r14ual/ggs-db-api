@@ -93,6 +93,9 @@ def select_all_from_house_by_id(**params):
             houses = db.query(HouseMD).filter(
                 HouseMD.id_organization == params["id_organization"]).all()
 
+        if not houses:
+            return "Error: House table is empty"
+
         return prepare_return_value(houses)
 
 
