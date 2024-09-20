@@ -10,18 +10,10 @@ from settings import settings
 ENGINE = settings.ENGINE
 
 
-def select_all_from_house():
+def prepare_return_value(houses):
+    result = list()
 
     with Session(autoflush=False, bind=ENGINE) as db:
-
-        houses = db.query(HouseMD).all()
-        # houses = [houses[i]
-        #           for i in range(len(houses) - 1, len(houses) - 100, -1)]
-
-        if not houses:
-            return "Error: House table is empty"
-
-        result = list()
 
         for house in houses:
 
@@ -76,3 +68,43 @@ def select_all_from_house():
             result.append(data)
 
         return result
+
+
+def select_all_from_house_by_id(**params):
+
+    with Session(autoflush=False, bind=ENGINE) as db:
+
+        is_person = "id_client" in params
+
+        houses = list()
+
+        if is_person:
+            house_owner_data = db.query(HouseOwnerMD).filter(
+                HouseOwnerMD.id_person == params["id_client"]).all()
+            house_ids = [
+                house_owner.id_house for house_owner in house_owner_data]
+
+            for house_id in house_ids:
+                house = db.query(HouseMD).filter(
+                    HouseMD.id == house_id).first()
+                houses.append(house)
+
+        else:
+            houses = db.query(HouseMD).filter(
+                HouseMD.id_organization == params["id_organization"]).all()
+
+        return prepare_return_value(houses)
+
+
+def select_all_from_house():
+
+    with Session(autoflush=False, bind=ENGINE) as db:
+
+        houses = db.query(HouseMD).all()
+        # houses = [houses[i]
+        #           for i in range(len(houses) - 1, len(houses) - 100, -1)]
+
+        if not houses:
+            return "Error: House table is empty"
+
+        return prepare_return_value(houses)
