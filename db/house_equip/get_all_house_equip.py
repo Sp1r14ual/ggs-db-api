@@ -33,12 +33,14 @@ def select_all_from_house_equip_by_id(**params):
             except AttributeError:
                 id_organization = None
 
+            id = item.id
             id_house = item.id_house
             id_type_house_equip = item.id_type_house_equip
             year_produce = item.year_produce
             remark = item.remark
 
             data = {
+                "id": id,
                 "id_client": id_client,
                 "id_organization": id_organization,
                 "id_house": id_house,
