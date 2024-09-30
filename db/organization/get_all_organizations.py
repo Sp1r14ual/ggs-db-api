@@ -18,6 +18,7 @@ def select_all_from_organization():
             return "Error: Organization table is empty"
 
         result = [{
+            "id": organization.id,
             "name": organization.name,
             "adress_jur": organization.adress_jur,
             "zip_code_jur": organization.zip_code_jur,
