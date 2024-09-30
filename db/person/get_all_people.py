@@ -18,6 +18,7 @@ def select_all_from_person():
             return "Error: Person table is empty"
 
         result = [{
+            "id": person.id,
             "family_name": person.family_name,
             "birthdate": None if not person.birthdate else person.birthdate.strftime("%d.%m.%Y"),
             "phone_number": person.phone_number,
