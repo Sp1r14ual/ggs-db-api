@@ -44,6 +44,7 @@ def prepare_return_value(houses):
                 id_client = None
                 is_actual = house.is_actual
 
+            id = house.id
             id_organization = house.id_organization
             house_number = house.house_number
             corpus_number = house.corpus_number
@@ -52,6 +53,7 @@ def prepare_return_value(houses):
             postal_index = house.postal_index
 
             data = {
+                "id": id,
                 "adress": f"почтовый индекс {postal_index}, город {town}, район {district}, улица {street}, дом {house_number}, корпус {corpus_number}, квартира {flat_number}",
                 "id_organization": id_organization,
                 # "town": town,
