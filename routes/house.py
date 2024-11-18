@@ -14,6 +14,17 @@ from logger import logger
 blp = Blueprint("House", __name__, description="CRUD Operations on House")
 
 
+def check_none(data):
+    non_nullable_fields = ("town", "district", "street",
+                           "house_number", "postal_index")
+    nullable_fields = ("corpus_number", "flat_number")
+
+    for field in data.keys():
+        if field in non_nullable_fields and data[field] is None:
+            abort(400, message=f"Error: Some fields are None: {
+                [key for key in data.keys() if not data[key]]}")
+
+
 @blp.route("/house")
 class House(MethodView):
     @blp.response(405)
@@ -37,9 +48,7 @@ class House(MethodView):
             parsed_data["flat_number"] = parsed_address["flat"]
             parsed_data["postal_index"] = parsed_address["postal_code"]
 
-        if None in parsed_data.values():
-            abort(400,
-                  message=f"Error: Some fields are None: {[key for key in parsed_data.keys() if not parsed_data[key]]}")
+        check_none(parsed_data)
 
         # id = insert_in_House(**data)
         result = insert_in_House(**dict(data, **parsed_data))
