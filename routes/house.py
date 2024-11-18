@@ -17,12 +17,11 @@ blp = Blueprint("House", __name__, description="CRUD Operations on House")
 def check_none(data):
     non_nullable_fields = ("town", "district", "street",
                            "house_number", "postal_index")
-    nullable_fields = ("corpus_number", "flat_number")
 
     for field in data.keys():
-        if field in non_nullable_fields and data[field] is None:
+        if field in non_nullable_fields and not data[field]:
             abort(400, message=f"Error: Some fields are None: {
-                [key for key in data.keys() if not data[key]]}")
+                  [key for key in data.keys() if not data[key]]}")
 
 
 @blp.route("/house")
@@ -77,9 +76,7 @@ class House(MethodView):
             parsed_data["corpus_number"] = parsed_address["block"]
             parsed_data["flat_number"] = parsed_address["flat"]
 
-        if None in parsed_data.values():
-            abort(400,
-                  message=f"Error: Some fields are None: {[key for key in parsed_data.keys() if not parsed_data[key]]}")
+        check_none(parsed_data)
 
         result = update_in_House(**dict(data, **parsed_data))
 
